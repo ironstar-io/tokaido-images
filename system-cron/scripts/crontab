@@ -1,0 +1,2 @@
+0 16 * * * /tokaido/config/cron/database-backup.sh
+30 16 * * * /tokaido/config/cron/files-backup.sh
