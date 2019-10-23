@@ -5,7 +5,7 @@ COPY configs/.bashrc /etc/skel/.bashrc
 LABEL io.ironstar.platform=tokaido
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# hadolint ignore=DL3008,DL3009,SC2155
+# hadolint ignore=DL3008,DL3009,SC2155,DL3013
 RUN apt-get update  \
     && apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" --no-install-recommends \
         openssh-server \
@@ -28,6 +28,7 @@ RUN apt-get update  \
         jq \
         nano \
         google-cloud-sdk \
+    && pip install --upgrade awscli \
     && /usr/bin/ssh-keygen -A  \
     && chmod 600 /etc/skel/.bash* \
     && cp /etc/skel/.bash_profile /home/tok/.bash_profile \

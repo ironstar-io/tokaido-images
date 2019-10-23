@@ -1,4 +1,4 @@
-FROM tokaido/drush:latest
+FROM tokaido/admin73-heavy:1.11.1
 
 ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.1.5/supercronic-linux-amd64 \
     SUPERCRONIC=supercronic-linux-amd64 \
@@ -28,6 +28,5 @@ RUN mkdir -p /tokaido/config/cron/ \
     && chmod 770 /usr/local/bin/entrypoint.sh \
     && chmod 760 /tokaido/config/cron/*.sh
 
-USER cron
 WORKDIR /tokaido
 CMD ["/usr/local/bin/entrypoint.sh"]

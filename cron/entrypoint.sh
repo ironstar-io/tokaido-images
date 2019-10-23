@@ -2,9 +2,14 @@
 set -eo pipefail
 
 if ! [[ -f /tokaido/site/.tok/cron/crontab ]]; then
-    echo "WARN: No crontab found, creating an empty one"
-    mkdir -p /tokaido/site/.tok/cron/
-    touch /tokaido/site/.tok/cron/crontab
+    echo "WARN: No crontab found"
+    keepgoing=1
+    trap '{ echo "sigint"; keepgoing=0; }' SIGINT
+
+    while (( keepgoing )); do
+        echo "sleeping"
+        sleep 86400
+    done
 fi
 
 # If a custom environment variable path exists, then inject those values

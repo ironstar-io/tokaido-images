@@ -25,6 +25,7 @@ RUN apt-get update  \
         jq \
         nano \
         google-cloud-sdk \
+    && pip install --upgrade awscli \
     && /usr/bin/ssh-keygen -A  \
     && chmod 600 /etc/skel/.bash* \
     && cp /etc/skel/.bash_profile /home/tok/.bash_profile \
