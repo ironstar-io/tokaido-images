@@ -1,8 +1,10 @@
-FROM tokaido/base:stable
+ARG TOKAIDO_VERSION
+FROM tokaido/base:${TOKAIDO_VERSION}
 ENV DEBIAN_FRONTEND noninteractive
 COPY config/syslog-ng.conf /etc/syslog-ng/syslog-ng.conf
 
-RUN apt-get update  \
+RUN apt-get clean \
+    && apt-get update  \
     && apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \	    
         debian-archive-keyring \
         gnupg \

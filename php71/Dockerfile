@@ -1,4 +1,5 @@
-FROM tokaido/base:stable
+ARG TOKAIDO_VERSION
+FROM tokaido/base:${TOKAIDO_VERSION}
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update  \
     && wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg  \
@@ -59,6 +60,9 @@ RUN apt-get update  \
         php7.1-xmlrpc \
         php7.1-xsl \
         php7.1-zip  \
+        python \
+        python-pip \
+        python-setuptools \
         ssmtp \
         xvfb \
         fontconfig \

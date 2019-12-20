@@ -1,4 +1,5 @@
-FROM tokaido/php71:stable
+ARG TOKAIDO_VERSION
+FROM tokaido/php71:${TOKAIDO_VERSION}
 ENV DEBIAN_FRONTEND noninteractive
 COPY configs/.bash_profile /etc/skel/.bash_profile
 COPY configs/.bashrc /etc/skel/.bashrc
@@ -28,6 +29,7 @@ RUN apt-get update  \
         jq \
         nano \
         google-cloud-sdk \
+        python-setuptools \
     && pip install --upgrade awscli \
     && /usr/bin/ssh-keygen -A  \
     && chmod 600 /etc/skel/.bash* \
@@ -35,7 +37,7 @@ RUN apt-get update  \
     && cp /etc/skel/.bashrc /home/tok/.bashrc \
     && chown tok:web /home/tok/.bash* \
     && chmod 600 /home/tok/.bash* \
-    && mkdir /run/sshd  \
+    && mkdir -p /run/sshd  \
     && wget -O composer-setup.php https://getcomposer.org/installer && php composer-setup.php && mv composer.phar /usr/local/bin/composer && rm composer-setup.php  \
     && su - tok -c "/usr/local/bin/composer global require \"hirak/prestissimo\""  \
     && su - tok -c "/usr/local/bin/composer global require \"drush/drush\""  \
@@ -46,9 +48,9 @@ RUN apt-get update  \
     && chmod 750 /home/tok/.composer/vendor/drush/drush/drush
 
 WORKDIR /tmp
-RUN wget -O /tmp/redis-4.0.11.tar.gz http://download.redis.io/releases/redis-4.0.11.tar.gz \
-    && tar xzf /tmp/redis-4.0.11.tar.gz -C /tmp/ \
-    && cd /tmp/redis-4.0.11 \
+RUN wget -O /tmp/redis-5.0.6.tar.gz http://download.redis.io/releases/redis-5.0.6.tar.gz \
+    && tar xzf /tmp/redis-5.0.6.tar.gz -C /tmp/ \
+    && cd /tmp/redis-5.0.6 \
     && make && make install \
     && rm -rf /tmp/*
 WORKDIR /tokaido

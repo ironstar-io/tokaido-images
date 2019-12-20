@@ -9,7 +9,7 @@ HostKey /etc/ssh/ssh_host_ed25519_key
 
 # Logging
 SyslogFacility AUTH
-LogLevel VERBOSE
+LogLevel ERROR
 PidFile /run/sshd/ssh.pid
 
 # Good ciphers via https://cipherli.st/

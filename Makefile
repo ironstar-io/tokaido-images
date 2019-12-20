@@ -36,15 +36,19 @@ build-all:
 	@$(MAKE) build-admin73-heavy
 	@$(MAKE) build-proxy
 	@$(MAKE) build-nginx
-	@$(MAKE) build-cron
+	@$(MAKE) build-cron71
+	@$(MAKE) build-cron72
+	@$(MAKE) build-cron73
 	@$(MAKE) build-logrotate
 	@$(MAKE) build-haproxy
 	@$(MAKE) build-varnish
+	@$(MAKE) build-kishu
 	@$(MAKE) build-system-cron
 
 .PHONY: deploy-all
 deploy-all:
 	@$(MAKE) deploy-base
+	@$(MAKE) deploy-syslog
 	@$(MAKE) deploy-php71
 	@$(MAKE) deploy-php71-fpm
 	@$(MAKE) deploy-admin71
@@ -59,104 +63,119 @@ deploy-all:
 	@$(MAKE) deploy-admin73-heavy
 	@$(MAKE) deploy-proxy
 	@$(MAKE) deploy-nginx
-	@$(MAKE) deploy-cron
+	@$(MAKE) deploy-cron71
+	@$(MAKE) deploy-cron72
+	@$(MAKE) deploy-cron73
 	@$(MAKE) deploy-logrotate
 	@$(MAKE) deploy-haproxy
 	@$(MAKE) deploy-varnish
+	@$(MAKE) deploy-kishu
 	@$(MAKE) deploy-system-cron
 
 
 .PHONY: build-base
 build-base:
-	cd base && docker build . -t tokaido/base:${TOKAIDO_VERSION}
+	cd base && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/base:${TOKAIDO_VERSION}
 
 .PHONY: build-syslog
 build-syslog:
-	cd syslog && docker build . -t tokaido/syslog:${TOKAIDO_VERSION}
+	cd syslog && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/syslog:${TOKAIDO_VERSION}
 
 .PHONY: build-php71
 build-php71:
-	cd php71 && docker build . -t tokaido/php71:${TOKAIDO_VERSION}
+	cd php71 && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/php71:${TOKAIDO_VERSION}
 
 .PHONY: build-php71-fpm
 build-php71-fpm:
-	cd php71-fpm && docker build . -t tokaido/php71-fpm:${TOKAIDO_VERSION}
+	cd php71-fpm && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/php71-fpm:${TOKAIDO_VERSION}
 
 .PHONY: build-admin71
 build-admin71:
-	cd admin71 && docker build . -t tokaido/admin71:${TOKAIDO_VERSION}
+	cd admin71 && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/admin71:${TOKAIDO_VERSION}
 
 .PHONY: build-admin71-heavy
 build-admin71-heavy:
-	cd admin71 && docker build . -t tokaido/admin71-heavy:${TOKAIDO_VERSION}
+	cd admin71 && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/admin71-heavy:${TOKAIDO_VERSION}
 
 .PHONY: build-php72
 build-php72:
-	cd php72 && docker build . -t tokaido/php72:${TOKAIDO_VERSION}
+	cd php72 && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/php72:${TOKAIDO_VERSION}
 
 .PHONY: build-php72-fpm
 build-php72-fpm:
-	cd php72-fpm && docker build . -t tokaido/php72-fpm:${TOKAIDO_VERSION}
+	cd php72-fpm && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/php72-fpm:${TOKAIDO_VERSION}
 
 .PHONY: build-admin72
 build-admin72:
-	cd admin72 && docker build . -t tokaido/admin72:${TOKAIDO_VERSION}
+	cd admin72 && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/admin72:${TOKAIDO_VERSION}
 
 .PHONY: build-admin72-heavy
 build-admin72-heavy:
-	cd admin72 && docker build . -t tokaido/admin72-heavy:${TOKAIDO_VERSION}
+	cd admin72 && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/admin72-heavy:${TOKAIDO_VERSION}
 
 .PHONY: build-php73
 build-php73:
-	cd php73 && docker build . -t tokaido/php73:${TOKAIDO_VERSION}
+	cd php73 && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/php73:${TOKAIDO_VERSION}
 
 .PHONY: build-php73-fpm
 build-php73-fpm:
-	cd php73-fpm && docker build . -t tokaido/php73-fpm:${TOKAIDO_VERSION}
+	cd php73-fpm && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/php73-fpm:${TOKAIDO_VERSION}
 
 .PHONY: build-admin73
 build-admin73:
-	cd admin73 && docker build . -t tokaido/admin73:${TOKAIDO_VERSION}
+	cd admin73 && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/admin73:${TOKAIDO_VERSION}
 
 .PHONY: build-admin73-heavy
 build-admin73-heavy:
-	cd admin73 && docker build . -t tokaido/admin73-heavy:${TOKAIDO_VERSION}
+	cd admin73 && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/admin73-heavy:${TOKAIDO_VERSION}
 
 .PHONY: build-proxy
 build-proxy:
-	cd proxy && docker build . -t tokaido/proxy:${TOKAIDO_VERSION}
+	cd proxy && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/proxy:${TOKAIDO_VERSION}
 
 .PHONY: build-nginx
 build-nginx:
-	cd nginx && docker build . -t tokaido/nginx:${TOKAIDO_VERSION}
+	cd nginx && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/nginx:${TOKAIDO_VERSION}
 
-.PHONY: build-cron
-build-cron:
-	cd cron && docker build . -t tokaido/cron:${TOKAIDO_VERSION}
+.PHONY: build-cron71
+build-cron71:
+	cd cron71 && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/cron71:${TOKAIDO_VERSION}
+
+.PHONY: build-cron72
+build-cron72:
+	cd cron72 && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/cron72:${TOKAIDO_VERSION}
+
+.PHONY: build-cron73
+build-cron73:
+	cd cron73 && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/cron73:${TOKAIDO_VERSION}
 
 .PHONY: build-logrotate
 build-logrotate:
-	cd logrotate && docker build . -t tokaido/logrotate:${TOKAIDO_VERSION}
+	cd logrotate && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/logrotate:${TOKAIDO_VERSION}
 
 .PHONY: build-haproxy
 build-haproxy:
-	cd haproxy && docker build . -t tokaido/haproxy:${TOKAIDO_VERSION}
-
+	cd haproxy && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/haproxy:${TOKAIDO_VERSION}
 
 .PHONY: build-varnish
 build-varnish:
-	cd varnish && docker build . -t tokaido/varnish:${TOKAIDO_VERSION}
+	cd varnish && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/varnish:${TOKAIDO_VERSION}
 
+.PHONY: build-kishu
+build-kishu:
+	cd kishu && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/kishu:${TOKAIDO_VERSION}
 
 .PHONY: build-system-cron
 build-system-cron:
-	cd system-cron && docker build . -t tokaido/system-cron:${TOKAIDO_VERSION}
+	cd system-cron && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/system-cron:${TOKAIDO_VERSION}
 
 .PHONY: deploy-base
 deploy-base:
 	docker push tokaido/base:${TOKAIDO_VERSION}
-	docker tag tokaido/base:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-base:${TOKAIDO_VERSION}
-	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-base:${TOKAIDO_VERSION}
+
+.PHONY: deploy-syslog
+deploy-syslog:
+	docker push tokaido/syslog:${TOKAIDO_VERSION}
 
 .PHONY: deploy-php71
 deploy-php71:
@@ -261,11 +280,23 @@ deploy-nginx:
 	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-nginx:${TOKAIDO_VERSION}
 
 
-.PHONY: deploy-cron
-deploy-cron:
-	docker push tokaido/cron:${TOKAIDO_VERSION}
-	docker tag tokaido/cron:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-cron:${TOKAIDO_VERSION}
-	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-cron:${TOKAIDO_VERSION}
+.PHONY: deploy-cron71
+deploy-cron71:
+	docker push tokaido/cron71:${TOKAIDO_VERSION}
+	docker tag tokaido/cron71:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-cron71:${TOKAIDO_VERSION}
+	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-cron71:${TOKAIDO_VERSION}
+
+.PHONY: deploy-cron72
+deploy-cron72:
+	docker push tokaido/cron72:${TOKAIDO_VERSION}
+	docker tag tokaido/cron72:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-cron72:${TOKAIDO_VERSION}
+	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-cron72:${TOKAIDO_VERSION}
+
+.PHONY: deploy-cron73
+deploy-cron73:
+	docker push tokaido/cron73:${TOKAIDO_VERSION}
+	docker tag tokaido/cron73:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-cron73:${TOKAIDO_VERSION}
+	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-cron73:${TOKAIDO_VERSION}
 
 
 .PHONY: deploy-logrotate
@@ -287,6 +318,10 @@ deploy-varnish:
 	docker push tokaido/varnish:${TOKAIDO_VERSION}
 	docker tag tokaido/varnish:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-varnish:${TOKAIDO_VERSION}
 	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-varnish:${TOKAIDO_VERSION}
+
+.PHONY: deploy-kishu
+deploy-kishu:
+	docker push tokaido/kishu:${TOKAIDO_VERSION}
 
 .PHONY: deploy-system-cron
 deploy-system-cron:

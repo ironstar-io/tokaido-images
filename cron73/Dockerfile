@@ -1,4 +1,5 @@
-FROM tokaido/php71:edge
+ARG TOKAIDO_VERSION
+FROM tokaido/admin73:${TOKAIDO_VERSION}
 
 ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.1.5/supercronic-linux-amd64 \
     SUPERCRONIC=supercronic-linux-amd64 \

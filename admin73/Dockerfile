@@ -1,4 +1,5 @@
-FROM tokaido/php73:stable
+ARG TOKAIDO_VERSION
+FROM tokaido/php73:${TOKAIDO_VERSION}
 ENV DEBIAN_FRONTEND noninteractive
 COPY configs/.bash_profile /etc/skel/.bash_profile
 COPY configs/.bashrc /etc/skel/.bashrc
@@ -32,7 +33,7 @@ RUN apt-get update  \
     && cp /etc/skel/.bashrc /home/tok/.bashrc \
     && chown tok:web /home/tok/.bash* \
     && chmod 600 /home/tok/.bash* \
-    && mkdir /run/sshd  \
+    && mkdir -p /run/sshd  \
     && curl -s https://getcomposer.org/installer > composer-setup.php && php composer-setup.php && mv composer.phar /usr/local/bin/composer && rm composer-setup.php  \
     && su - tok -c "/usr/local/bin/composer global require \"hirak/prestissimo\""  \
     && su - tok -c "/usr/local/bin/composer global require \"drush/drush\""  \
@@ -42,9 +43,9 @@ RUN apt-get update  \
     && mv /tmp/drush.phar /usr/local/bin/drush \
     && chmod 755 /usr/local/bin/drush \
     && chmod 750 /home/tok/.composer/vendor/drush/drush/drush \
-    && curl -s http://download.redis.io/releases/redis-4.0.11.tar.gz > /tmp/redis-4.0.11.tar.gz \
-    && tar xzf /tmp/redis-4.0.11.tar.gz -C /tmp/ \
-    && cd /tmp/redis-4.0.11 \
+    && curl -s http://download.redis.io/releases/redis-5.0.6.tar.gz > /tmp/redis-5.0.6.tar.gz \
+    && tar xzf /tmp/redis-5.0.6.tar.gz -C /tmp/ \
+    && cd /tmp/redis-5.0.6 \
     && make && make install \
     && rm -rf /tmp/*
 

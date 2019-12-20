@@ -1,23 +1,25 @@
 ARG TOKAIDO_VERSION
-FROM tokaido/admin73:${TOKAIDO_VERSION}
+FROM tokaido/admin71:${TOKAIDO_VERSION}
 
 ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.1.5/supercronic-linux-amd64 \
     SUPERCRONIC=supercronic-linux-amd64 \
     SUPERCRONIC_SHA1SUM=9aeb41e00cc7b71d30d33c57a2333f2c2581a201
 RUN apt-get update -y \
-    && apt-get install -y logrotate \
     && curl -fsSLO "$SUPERCRONIC_URL" \
     && echo "${SUPERCRONIC_SHA1SUM}  ${SUPERCRONIC}" | sha1sum -c - \
     && chmod +x "$SUPERCRONIC" \
     && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
     && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic \
-    && mkdir -p /tokaido/config/logrotate \
-    && chown -R tok:web /tokaido/config/logrotate \
-    && chmod 770 /tokaido/config/logrotate
+    && mkdir -p /tokaido/logs/client-cron \
+    && chown -R tok:web /tokaido/logs/client-cron \
+    && chmod 770 /tokaido/logs/client-cron
 
-COPY config/crontab /tokaido/config/logrotate/crontab
-COPY config/logrotate.conf /tokaido/config/logrotate/logrotate.conf
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
-WORKDIR /tmp
+RUN chmod 770 /usr/local/bin/entrypoint.sh && \
+    chown tok:web /usr/local/bin/entrypoint.sh
 
-ENTRYPOINT ["supercronic", "/tokaido/config/logrotate/crontab"]
+USER tok
+WORKDIR /tokaido/site
+
+CMD ["/usr/local/bin/entrypoint.sh"]

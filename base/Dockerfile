@@ -9,9 +9,11 @@ RUN apt-get update  \
     && apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" --no-install-recommends \
 	    netcat \
         apt-transport-https \
+        build-essential \
         ca-certificates \
         curl \
         git \
+        gnupg2 \
         iproute2 \
         iputils-ping \
         lsb-release \
@@ -26,21 +28,23 @@ RUN apt-get update  \
         vim \
         wget \
     && echo "UTC" > /etc/timezone  \
+    && echo exit 0 > /usr/sbin/policy-rc.d \
     && mkdir /etc/skel/.ssh  \
     && find /etc/skel -type d -a -print0 | xargs -0 chmod 700 \
     && find /etc/skel -type d -name ".*" -a -print0 | xargs -0 chmod 700 \
     && find /etc/skel -type f -a -print0 | xargs -0 chmod 600 \
     && find /etc/skel -type f -name ".*" -a -print0 | xargs -0 chmod 600 \
     && groupadd -g 1001 web  \
+    && groupadd -g 1100 varnish \
     && useradd -m -s /bin/bash -g web -u 1001 tok  \
     && usermod -p '*' tok  \
     && chown tok:root /home/tok -R \
     && useradd -s /sbin/nologin -g web -u 1002 nginx  \
     && useradd -s /sbin/nologin -g web -u 1003 fpm  \
-    && useradd -s /sbin/nologin -g web -u 1004 varnish  \
+    && useradd -s /sbin/nologin -g varnish -u 1004 varnish  \
+    && usermod -a -G web varnish \
     && useradd -s /sbin/nologin -g web -u 1005 haproxy  \
     && useradd -s /sbin/nologin -g web -u 1006 syslog \
-    && deluser www-data  \
     && mkdir -p /tokaido/logs/cron /tokaido/config /tokaido/files /tokaido/private /tokaido/site \
     && touch /tokaido/config/.env \
     && chmod 770 /tokaido/logs/ -R \

@@ -1,4 +1,5 @@
-FROM tokaido/admin73:edge
+ARG TOKAIDO_VERSION
+FROM tokaido/admin73:${TOKAIDO_VERSION}
 COPY configs/sudoers /etc/sudoers
 COPY configs/fzf.bash /home/tok/.fzf.bash
 RUN apt-get update \

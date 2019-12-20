@@ -1,6 +1,6 @@
 0 16 * * * /tokaido/config/cron/database-backup.sh
 30 16 * * * /tokaido/config/cron/files-backup.sh
-0 */2 * * * find /tokaido/files/ -type d -print0 | xargs -P0 -0 chmod u+rwx,g+srwx,o+rx,o-w
-0 */2 * * * find /tokaido/files/ -type f -print0 | xargs -P0 -0 chmod u+rw,g+rw,ug-x,o+r,o-wx
-0 */2 * * * find /tokaido/private/ -type d -print0 | xargs -P0 -0 chmod u+rwx,g+srwx,o-rwx
-0 */2 * * * find /tokaido/private/ -type f -print0 | xargs -P0 -0 chmod u+rw,g+rw,ug-x,o-rwx
+0 */2 * * * find /tokaido/storage/public/ -type d -print0 | xargs -P0 -0 chmod u+rwx,g+srwx,o+rx,o-w
+0 */2 * * * find /tokaido/storage/public/ -type f -print0 | xargs -P0 -0 chmod u+rw,g+rw,ug-x,o+r,o-wx
+0 */2 * * * find /tokaido/storage/private/ -type d -print0 | xargs -P0 -0 chmod u+rwx,g+srwx,o-rwx
+0 */2 * * * find /tokaido/storage/private/ -type f -print0 | xargs -P0 -0 chmod u+rw,g+rw,ug-x,o-rwx

@@ -12,9 +12,9 @@ backend default {
 }
 
 # Allow private networks to purge
-acl purge {    
-    "127.0.0.1";        
-    "10.0.0.0"/8;     
+acl purge {
+    "127.0.0.1";
+    "10.0.0.0"/8;
     "172.16.0.0"/12;
     "192.168.0.0"/16;
 }
@@ -31,25 +31,25 @@ sub vcl_recv {
         }
     }
 
-    if (req.method == "PURGEALL") {    
+    if (req.method == "PURGEALL") {
         if (("{{.VARNISH_PURGE_KEY}}" ~ "^\w{23,}\b") && (req.http.X-Purge-Key != "{{.VARNISH_PURGE_KEY}}")) {
             return (synth(405, "Not allowed. Invalid Purge Key Supplied"));
-        }        
+        }
         if (!client.ip ~ purge) {
             return (synth(405, "Not allowed."));
-        }        
+        }
         ban("req.http.host ~ .*");
-        return (synth(200, "Complete cache purged"));        
+        return (synth(200, "Complete cache purged"));
     }
-    
+
     if (req.method == "BAN") {
         if (("{{.VARNISH_PURGE_KEY}}" ~ "^\w{23,}\b") && (req.http.X-Purge-Key != "{{.VARNISH_PURGE_KEY}}")) {
             return (synth(405, "Not allowed. Invalid Purge Key Supplied"));
-        }        
+        }
         if (!client.ip ~ purge) {
             return (synth(405, "Not allowed."));
-        }                       
-        
+        }
+
         if (req.http.Purge-Cache-Tags) {
             ban("obj.http.Purge-Cache-Tags ~ " + req.http.Purge-Cache-Tags);
         }
@@ -67,7 +67,7 @@ sub vcl_recv {
     }
 
     # Don't cache logged in users
-    if (req.http.Authorization) {    
+    if (req.http.Authorization) {
         return (pass);
     }
     if (req.url ~ "^/status\.php$" ||
@@ -83,14 +83,16 @@ sub vcl_recv {
         req.url ~ "^/flag/.*$" ||
         req.url ~ "^.*/ajax/.*$" ||
         req.url ~ "^.*/ahah/.*$" ||
+        req.url ~ "^/\?ironstar-external-monitoring.*$" ||
         req.url ~ "^/system/files/.*$") {
-            return (pass);  
+            set req.http.X-Varnish-Bypass = "BYPASS";
+            return (pass);
     }
 
     # Reject definitively non-Drupal and non-friendly URLs
-    if (req.url == "(?i)^autodiscover/autodiscover.xml$" || 
-        req.url == "(?i)^wp-login.php$" || 
-        req.url == "(?i)^web.config$" || 
+    if (req.url == "(?i)^autodiscover/autodiscover.xml$" ||
+        req.url == "(?i)^wp-login.php$" ||
+        req.url == "(?i)^web.config$" ||
         req.url == "(?i)^wp-admin.*$") {
             return (synth(404));
     }
@@ -122,7 +124,7 @@ sub vcl_recv {
         }
         else {
             # If there is any cookies left (a session or NO_CACHE cookie), do not
-            # cache the page. Pass it on to Apache directly.            
+            # cache the page. Pass it on to Apache directly.
             return (pass);
         }
     }
@@ -139,38 +141,41 @@ sub vcl_deliver {
     # Remove ban-lurker friendly custom headers when delivering to client.
     unset resp.http.X-Url;
     unset resp.http.X-Host;
-    
+
     # Comment these for easier Drupal cache tag debugging in development.
     unset resp.http.Purge-Cache-Tags;
     unset resp.http.X-Drupal-Cache-Contexts;
-    
+
     # Remove insecure headers
     unset resp.http.X-Generator;
     unset resp.http.X-Powered-By;
-    unset resp.http.Server;    
-    unset resp.http.X-Varnish;        
+    unset resp.http.Server;
+    unset resp.http.X-Varnish;
+
+    # Apply a header to identify Ironstar as the end host (useful for debugging migrations)
+    {{.IRONSTAR_HOSTED}}
 
     # Apply an X-Frame-Options header if one is missing
     if (!resp.http.X-Frame-Options) {
       set resp.http.X-Frame-Options = "SAMEORIGIN";
-    } 
+    }
 
     # Apply an X-XSS-Protection header if one is missing
     if (!resp.http.X-XSS-Protection) {
       set resp.http.X-XSS-Protection = "1; mode=block";
-    } 
+    }
 
     # Apply a strict ReferrerPolicy header if one is missing
     if (!resp.http.Referrer-Policy) {
       set resp.http.Referrer-Policy = "same-origin";
-    } 
-    
+    }
+
     if (obj.hits > 0) {
         set resp.http.X-Varnish-Cache = "HIT";
     }
     else {
         set resp.http.X-Varnish-Cache = "MISS";
-    }    
+    }
 
     if (req.http.X-Varnish-Bypass == "BYPASS") {
         set resp.http.X-Varnish-Cache = "BYPASS";
@@ -194,4 +199,3 @@ sub vcl_backend_response {
     # Allow items to remain in cache up to 1 hour past their cache expiration.
     set beresp.grace = 1h;
 }
-

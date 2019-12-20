@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euxo pipefail
+set -exo pipefail
 
 tok_provider=${TOK_PROVIDER:-}
 drupal_root=${DRUPAL_ROOT:-docroot}
@@ -9,6 +9,12 @@ drupal_root=${DRUPAL_ROOT:-docroot}
 while read -r line; do
   export $line
 done < /tokaido/config/.env
+
+if [[ "$IRONSTAR_CLUSTER_VERSION" == "3.1" ]]; then
+  echo "Linking /tmp to /tokaido/storage/tmp"
+  rm -rf /tmp
+  ln -s /tokaido/storage/tmp /tmp
+fi
 
 # If we're running on a local Tokaido platform, just set up one user SSH key
 if [[ -z "$tok_provider" ]]; then
@@ -23,6 +29,8 @@ if [[ -z "$tok_provider" ]]; then
   echo "PROJECT_NAME=${PROJECT_NAME:-}" >> /home/"$username"/.ssh/environment
   echo "DRUPAL_ROOT=${drupal_root}" >> /home/"$username"/.ssh/environment
   echo "VARNISH_PURGE_KEY=${VARNISH_PURGE_KEY:-}" >> /home/"$username"/.ssh/environment
+  echo "IRONSTAR_CLUSTER_VERSION=${IRONSTAR_CLUSTER_VERSION:-}" >> /home/"$username"/.ssh/environment
+  echo "IRONSTAR_HOSTED=${IRONSTAR_HOSTED:-}" >> /home/"$username"/.ssh/environment
   chmod 600 /home/"$username"/.ssh/environment
   chmod 600 /home/"$username"/.ssh/authorized_keys
   chown "$username":root /home/"$username"/.ssh -R
@@ -52,6 +60,8 @@ else
     cat /tokaido/config/.env >> /home/"$username"/.ssh/environment
     echo "APP_ENV=${APP_ENV:-unknown}" >> /home/"$username"/.ssh/environment
     echo "PROJECT_NAME=${PROJECT_NAME:-}" >> /home/"$username"/.ssh/environment
+    echo "IRONSTAR_CLUSTER_VERSION=${IRONSTAR_CLUSTER_VERSION:-}" >> /home/"$username"/.ssh/environment
+    echo "IRONSTAR_HOSTED=${IRONSTAR_HOSTED:-}" >> /home/"$username"/.ssh/environment
     echo "DRUPAL_ROOT=${drupal_root}" >> /home/"$username"/.ssh/environment
     echo "TOK_PROVIDER=${TOK_PROVIDER:-}" >> /home/"$username"/.ssh/environment
     echo "BACKUPS_BUCKET=${BACKUPS_BUCKET:-}" >> /home/"$username"/.ssh/environment

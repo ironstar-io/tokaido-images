@@ -65,10 +65,10 @@ if [ "$color_prompt" = yes ]; then
         PS1='🚅 \[\e[1;32m\]\[\e[1mLOCAL\[\e[33m\]\[\e[m\] \[\e[36m\]${PROJECT_NAME}\[\e[m\] \[\e[33m\]\t\[\e[m\] \[\e[34m\]\w\[\e[m\]\n\[\e[32m\]\$\[\e[m\] '
     elif [[ $APP_ENV == "dev" ]]; then
         PS1='\[\e[1;33m\]\[\e[1mDEV\[\e[33m\]\[\e[m\] \[\e[36m\]${PROJECT_NAME}\[\e[m\] \[\e[33m\]\t\[\e[m\] \[\e[34m\]\w\[\e[m\]\n\[\e[32m\]\$\[\e[m\] '
-    elif [[ $APP_ENV == "stg" ]]; then
-        PS1='\[\e[1;33m\]\[\e[1mSTG\[\e[33m\]\[\e[m\] \[\e[36m\]${PROJECT_NAME}\[\e[m\] \[\e[33m\]\t\[\e[m\] \[\e[34m\]\w\[\e[m\]\n\[\e[32m\]\$\[\e[m\] '
-    elif [[ $APP_ENV == "prd" ]]; then
-        PS1='☢️ \[\e[1;31m\]\[\e[1mPRD\[\e[33m\]\[\e[m\] \[\e[36m\]${PROJECT_NAME}\[\e[m\] \[\e[33m\]\t\[\e[m\] \[\e[34m\]\w\[\e[m\]\n\[\e[32m\]\$\[\e[m\] '
+    elif [[ $APP_ENV == "stage" ]]; then
+        PS1='\[\e[1;33m\]\[\e[1mSTAGE\[\e[33m\]\[\e[m\] \[\e[36m\]${PROJECT_NAME}\[\e[m\] \[\e[33m\]\t\[\e[m\] \[\e[34m\]\w\[\e[m\]\n\[\e[32m\]\$\[\e[m\] '
+    elif [[ $APP_ENV == "prod" ]]; then
+        PS1='☢️ \[\e[1;31m\]\[\e[1mPROD\[\e[33m\]\[\e[m\] \[\e[36m\]${PROJECT_NAME}\[\e[m\] \[\e[33m\]\t\[\e[m\] \[\e[34m\]\w\[\e[m\]\n\[\e[32m\]\$\[\e[m\] '
     else
         PS1='\[\e[36m\]${PROJECT_NAME}\[\e[m\] \[\e[33m\]\t\[\e[m\] \[\e[34m\]\w\[\e[m\]\n\[\e[32m\]\$\[\e[m\] '
     fi

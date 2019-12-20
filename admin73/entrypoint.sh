@@ -23,6 +23,8 @@ if [[ -z "$tok_provider" ]]; then
   echo "PROJECT_NAME=${PROJECT_NAME:-}" >> /home/"$username"/.ssh/environment
   echo "DRUPAL_ROOT=${drupal_root}" >> /home/"$username"/.ssh/environment
   echo "VARNISH_PURGE_KEY=${VARNISH_PURGE_KEY:-}" >> /home/"$username"/.ssh/environment
+  echo "IRONSTAR_CLUSTER_VERSION=${IRONSTAR_CLUSTER_VERSION:-}" >> /home/"$username"/.ssh/environment
+  echo "IRONSTAR_HOSTED=${IRONSTAR_HOSTED:-}" >> /home/"$username"/.ssh/environment
   chmod 600 /home/"$username"/.ssh/environment
   chmod 600 /home/"$username"/.ssh/authorized_keys
   chown "$username":root /home/"$username"/.ssh -R
@@ -56,6 +58,8 @@ else
     echo "TOK_PROVIDER=${TOK_PROVIDER:-}" >> /home/"$username"/.ssh/environment
     echo "BACKUPS_BUCKET=${BACKUPS_BUCKET:-}" >> /home/"$username"/.ssh/environment
     echo "VARNISH_PURGE_KEY=${VARNISH_PURGE_KEY:-}" >> /home/"$username"/.ssh/environment
+    echo "IRONSTAR_CLUSTER_VERSION=${IRONSTAR_CLUSTER_VERSION:-}" >> /home/"$username"/.ssh/environment
+    echo "IRONSTAR_HOSTED=${IRONSTAR_HOSTED:-}" >> /home/"$username"/.ssh/environment
 
     # If a custom environment variable path exists, then inject those values
     if [[ -d "/tokaido/config/custom-env-vars" ]]; then

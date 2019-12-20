@@ -1,4 +1,5 @@
-FROM tokaido/php72:stable
+ARG TOKAIDO_VERSION
+FROM tokaido/php72:${TOKAIDO_VERSION}
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN echo 'deb http://apt.newrelic.com/debian/ newrelic non-free' | tee /etc/apt/sources.list.d/newrelic.list \
@@ -11,8 +12,6 @@ RUN echo 'deb http://apt.newrelic.com/debian/ newrelic non-free' | tee /etc/apt/
       php7.2-xdebug \
       newrelic-php5 \
       php-pear \
-      python \
-      python-pip \
     && pip install crudini \
     && pip install awscli  \
     && chsh -s /bin/bash fpm \
@@ -23,6 +22,7 @@ RUN echo 'deb http://apt.newrelic.com/debian/ newrelic non-free' | tee /etc/apt/
     && chmod 770 /var/log/php7 \
     && chown -R tok:web /var/log/php7 \
     && chown tok:web /run/php/ \
+    && deluser www-data  \
     && chsh -s /usr/sbin/nologin fpm  \
     && curl -s https://getcomposer.org/installer > composer-setup.php && php composer-setup.php && mv composer.phar /usr/local/bin/composer && rm composer-setup.php  \
     && su - tok -c "/usr/local/bin/composer global require \"hirak/prestissimo\""  \

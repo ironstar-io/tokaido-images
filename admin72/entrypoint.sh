@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euxo pipefail
+set -exo pipefail
 
 tok_provider=${TOK_PROVIDER:-}
 drupal_root=${DRUPAL_ROOT:-docroot}
@@ -7,7 +7,7 @@ drupal_root=${DRUPAL_ROOT:-docroot}
 
 # Invoke the environment variables into this sshd process
 while read -r line; do
-  export $line 
+  export $line
 done < /tokaido/config/.env
 
 # If we're running on a local Tokaido platform, just set up one user SSH key
@@ -23,18 +23,20 @@ if [[ -z "$tok_provider" ]]; then
   echo "PROJECT_NAME=${PROJECT_NAME:-}" >> /home/"$username"/.ssh/environment
   echo "DRUPAL_ROOT=${drupal_root}" >> /home/"$username"/.ssh/environment
   echo "VARNISH_PURGE_KEY=${VARNISH_PURGE_KEY:-}" >> /home/"$username"/.ssh/environment
-  chmod 600 /home/"$username"/.ssh/environment        
+  echo "IRONSTAR_CLUSTER_VERSION=${IRONSTAR_CLUSTER_VERSION:-}" >> /home/"$username"/.ssh/environment
+  echo "IRONSTAR_HOSTED=${IRONSTAR_HOSTED:-}" >> /home/"$username"/.ssh/environment
+  chmod 600 /home/"$username"/.ssh/environment
   chmod 600 /home/"$username"/.ssh/authorized_keys
-  chown "$username":root /home/"$username"/.ssh -R 
+  chown "$username":root /home/"$username"/.ssh -R
 # If we're running in a Tokaido production environment, we'll create multiple users
 # and also set up some additional configuration that they'll need
-else 
+else
   # Copy the host's SSH key set if it exists
   if [[ -d "/tokaido/config/ssh_host_keys" ]]; then
     cp /tokaido/config/ssh_host_keys/* /etc/ssh/
   fi
-  # Create user accounts based on the ssh keys present  
-  for f in /tokaido/config/users/*; 
+  # Create user accounts based on the ssh keys present
+  for f in /tokaido/config/users/*;
   do
     [[ -e $f ]] || { echo "ERROR: No ssh keys found. Can't create users"; exit 1; }
     username=${f##*/}
@@ -56,10 +58,12 @@ else
     echo "TOK_PROVIDER=${TOK_PROVIDER:-}" >> /home/"$username"/.ssh/environment
     echo "BACKUPS_BUCKET=${BACKUPS_BUCKET:-}" >> /home/"$username"/.ssh/environment
     echo "VARNISH_PURGE_KEY=${VARNISH_PURGE_KEY:-}" >> /home/"$username"/.ssh/environment
+    echo "IRONSTAR_CLUSTER_VERSION=${IRONSTAR_CLUSTER_VERSION:-}" >> /home/"$username"/.ssh/environment
+    echo "IRONSTAR_HOSTED=${IRONSTAR_HOSTED:-}" >> /home/"$username"/.ssh/environment
 
     # If a custom environment variable path exists, then inject those values
     if [[ -d "/tokaido/config/custom-env-vars" ]]; then
-      for e in /tokaido/config/custom-env-vars/*; 
+      for e in /tokaido/config/custom-env-vars/*;
       do
         echo "${e##*/}"=$(cat $e) >> /home/"$username"/.ssh/environment
       done
@@ -67,7 +71,7 @@ else
 
     chmod 600 /home/"$username"/.ssh/environment
     chown "$username" /home/"$username"/.ssh/environment
-    
+
     # Set up backups profile for this user to access (if relevant)
     if [ "$tok_provider" = "technocrat" ]; then
       echo "Setting up backups AWS profile for $username"

@@ -1,10 +1,13 @@
-FROM tokaido/base:stable
+ARG TOKAIDO_VERSION
+FROM tokaido/base:${TOKAIDO_VERSION}
 ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update  \
     && wget -O /etc/apt/trusted.gpg.d/php.gpg https://packages.sury.org/php/apt.gpg  \
     && sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/php.list'  \
     && apt-get update   \
     && apt-get install -y \
+        libsodium-dev \
+        libmcrypt-dev \
         php7.3 \
         php7.3-bcmath \
         php7.3-bz2 \
@@ -12,6 +15,7 @@ RUN apt-get update  \
         php7.3-ctype \
         php7.3-curl \
         php7.3-dba \
+        php7.3-dev \
         php7.3-dom \
         php7.3-embed \
         php7.3-enchant \
@@ -58,6 +62,9 @@ RUN apt-get update  \
         php7.3-xmlrpc \
         php7.3-xsl \
         php7.3-zip  \
+        python \
+        python-pip \
+        python-setuptools \
         ssmtp \
         xvfb \
         fontconfig \
@@ -66,6 +73,12 @@ RUN apt-get update  \
         ttf-dejavu \
         ttf-freefont \
         ttf-liberation \
+        php-pear \
+        php-dev \
+        php-xml \
+    && ln -sf /usr/bin/php7.3 /etc/alternatives/php \
+    && pecl channel-update pecl.php.net \
+    && pecl install mcrypt-1.0.2 \
     # Install ghostscript from source
     && wget https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs926/ghostscript-9.26.tar.gz \
     && tar xzf ghostscript-9.26.tar.gz \

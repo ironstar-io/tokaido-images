@@ -19,7 +19,7 @@ fi
 for s in $(< $sites_config jq '.[].name' | sed -e 's/\"//g'); do
     echo "Found site '$s' to backup"
     backup_filename="$APP_ENV-$s-sql-dump-$datetime.sql"
-    backup_path="/tokaido/private/$s/ironstar-backups/database"
+    backup_path="/tokaido/storage/private/$s/ironstar-backups/database"
     mkdir -p "$backup_path"
 
     echo "-----------------------" | tee -a "$log_filename"
