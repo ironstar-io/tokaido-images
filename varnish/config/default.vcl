@@ -79,6 +79,7 @@ sub vcl_recv {
         req.url ~ "^/user" ||
         req.url ~ "^/user/.*$" ||
         req.url ~ "^/users/.*$" ||
+        req.url ~ "^/healthz.*$" ||
         req.url ~ "^/info/.*$" ||
         req.url ~ "^/flag/.*$" ||
         req.url ~ "^.*/ajax/.*$" ||

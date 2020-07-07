@@ -17,7 +17,7 @@ RUN apt-get update  \
         iproute2 \
         iputils-ping \
         lsb-release \
-        mysql-client \
+        mariadb-client \
         net-tools \
         python \
         python-pip \

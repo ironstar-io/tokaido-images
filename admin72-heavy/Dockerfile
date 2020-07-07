@@ -2,6 +2,7 @@ ARG TOKAIDO_VERSION
 FROM tokaido/admin72:${TOKAIDO_VERSION}
 COPY configs/sudoers /etc/sudoers
 COPY configs/fzf.bash /home/tok/.fzf.bash
+ARG IRONSTAR_CLI_VERSION=v0.7.0
 RUN apt-get update \
     && apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
         ruby-full \
@@ -19,4 +20,8 @@ RUN apt-get update \
     && find /home/tok -type f -iname ".*" -a -print0 | xargs -0 chmod 600 \
     && ln -s /usr/share/bash-completion/completions/git /etc/bash_completion.d/git-completion.bash \
     && chmod 750 /home/tok/.composer/vendor/drush/drush/drush \
-    && chmod 700 /home/tok/.fzf/bin/fzf
+    && chmod 700 /home/tok/.fzf/bin/fzf \
+    && wget -O iron https://github.com/ironstar-io/ironstar-cli/releases/download/${IRONSTAR_CLI_VERSION}/iron-linux \
+    && chown tok:web iron \
+    && chmod 770 iron \
+    && mv iron /usr/local/bin
