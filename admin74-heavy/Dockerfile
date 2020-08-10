@@ -1,5 +1,5 @@
 ARG TOKAIDO_VERSION
-FROM tokaido/admin73:${TOKAIDO_VERSION}
+FROM tokaido/admin74:${TOKAIDO_VERSION}
 COPY configs/sudoers /etc/sudoers
 COPY configs/fzf.bash /home/tok/.fzf.bash
 ARG IRONSTAR_CLI_VERSION=v0.7.0
@@ -25,4 +25,3 @@ RUN apt-get update \
     && wget -O iron https://github.com/ironstar-io/ironstar-cli/releases/download/${IRONSTAR_CLI_VERSION}/iron-linux \
     && chown tok:web iron \
     && chmod 770 iron \
-    && mv iron /usr/local/bin
