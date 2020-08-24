@@ -32,10 +32,13 @@ build-all:
 	@$(MAKE) build-php74-fpm
 	@$(MAKE) build-admin73
 	@$(MAKE) build-admin73-heavy
+	@$(MAKE) build-admin74
+	@$(MAKE) build-admin74-heavy
 	@$(MAKE) build-proxy
 	@$(MAKE) build-nginx
 	@$(MAKE) build-cron72
 	@$(MAKE) build-cron73
+	@$(MAKE) build-cron74
 	@$(MAKE) build-logrotate
 	@$(MAKE) build-haproxy
 	@$(MAKE) build-varnish
@@ -56,10 +59,13 @@ deploy-all:
 	@$(MAKE) deploy-php74-fpm
 	@$(MAKE) deploy-admin73
 	@$(MAKE) deploy-admin73-heavy
+	@$(MAKE) deploy-admin74
+	@$(MAKE) deploy-admin74-heavy
 	@$(MAKE) deploy-proxy
 	@$(MAKE) deploy-nginx
 	@$(MAKE) deploy-cron72
 	@$(MAKE) deploy-cron73
+	@$(MAKE) deploy-cron74
 	@$(MAKE) deploy-logrotate
 	@$(MAKE) deploy-haproxy
 	@$(MAKE) deploy-varnish

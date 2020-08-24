@@ -1,4 +1,4 @@
-FROM nginx:1.16.1
+FROM nginx:1.18.0
 ENV DEBIAN_FRONTEND noninteractive
 LABEL io.ironstar.platform=tokaido
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -19,6 +19,7 @@ RUN apt-get update  \
         telnet \
 	    netcat \
 	&& mkdir -p /tokaido/config/nginx/conf.d/sites /tokaido/config/nginx/conf.d/redirects \
+    && mkdir -p /tokaido/config/nginx/runtime/tls/ \
 	&& mkdir -p /tokaido/logs/nginx \
 	&& mkdir -p /tokaido/site/docroot \
 	&& mkdir -p /var/cache/nginx \

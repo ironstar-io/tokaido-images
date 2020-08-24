@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
+
+############################
+# TLS Configuration
+############################
+
+printf "${YELLOW}Creating TLS Certificate...${NC}\n"
+openssl req -subj "/CN=*.nginx.nozomi.ironstar.io/O=Nozomi Hosting Platform./C=AU" -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /tokaido/config/nginx/runtime/tls/default.key -out /tokaido/config/nginx/runtime/tls/default.crt
+
+
 ################################################################################
 #
 # Setting Default Variable Values
@@ -201,6 +210,12 @@ if [ ${TOK_PROVIDER+x} ]; then
     sed -i "s/{{.SECURITY_CONFIG}}/include ${configFiles[SECURITY_CONFIG]//\//\\\/};/g" "${configFiles[HOST_CONFIG]}"
 else
     sed -i "s/{{.SECURITY_CONFIG}}//g" "${configFiles[HOST_CONFIG]}"
+fi
+
+if [ "$LEGACY_STATIC_CACHE_ENABLED" = "true" ] ; then
+    sed -i "s/{{.LEGACY_STATIC_CACHE_EXPIRES}}/$LEGACY_STATIC_CACHE_EXPIRES/g" "${configFiles[HOST_CONFIG]}"
+else
+    sed -i "s/{{.LEGACY_STATIC_CACHE_EXPIRES}}/3600/g" "${configFiles[HOST_CONFIG]}"
 fi
 
 printf "${GREEN}Starting NGINX...${NC}\n"
