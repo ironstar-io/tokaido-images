@@ -5,7 +5,7 @@ COPY config/syslog-ng.conf /etc/syslog-ng/syslog-ng.conf
 
 RUN apt-get clean \
     && apt-get update  \
-    && apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \	    
+    && apt-get install -y --no-install-recommends -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
         debian-archive-keyring \
         gnupg \
         syslog-ng \
@@ -26,9 +26,9 @@ RUN apt-get clean \
     && chown syslog:web /tokaido/logs/syslog \
     && chmod 2770 /tokaido/logs/syslog \
     && chmod 2770 /tokaido/logs/ \
-    && chown syslog:web /tokaido/logs/ 
-    
-    
+    && chown syslog:web /tokaido/logs/
+
+
 USER syslog
 WORKDIR /tokaido/logs
 EXPOSE 5514

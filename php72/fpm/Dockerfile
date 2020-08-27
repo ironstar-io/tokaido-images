@@ -59,18 +59,14 @@ RUN apt-get update \
 	&& apt-get install -y --no-install-recommends \
 		$BUILD_DEPS \
 		xz-utils \
-        xfonts-base \
-        xfonts-75dpi \
-        postfix \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-ARG PHP_INI_DIR=/tokaido/config/php
-ARG PHP_INI_PATH=/tokaido/config/php/php.ini
+ARG PHP_INI_DIR=/usr/local/php/etc
 ARG PHP_DIR=/usr/local/php
-RUN mkdir -p "$PHP_INI_DIR/conf.d" "$PHP_INI_DIR/disabled" \
+RUN mkdir -p "$PHP_INI_DIR/conf.d" \
     && mkdir -p /usr/local/php/bin \
-    && chown tok:root /usr/local/php/bin \
+    && chown app:root /usr/local/php/bin \
     && chmod 2770 /usr/local/php/bin
 
 # Apply stack smash protection to functions using local buffers and alloca()
@@ -117,8 +113,8 @@ RUN export \
         --prefix="$PHP_DIR" \
 		--enable-option-checking=fatal \
         --enable-fpm \
-        --with-fpm-user=tok \
-        --with-fpm-group=web \
+        --with-fpm-user=app \
+        --with-fpm-group=app \
         --disable-cgi \
         --enable-bcmath \
         --enable-calendar \
@@ -164,6 +160,7 @@ RUN export \
         --with-png-dir \
         --with-webp-dir
 
+COPY config/extensions.ini /usr/local/php/etc/conf.d/extensions.ini
 
 # compile PHP
 RUN make -j "$(nproc)" \
@@ -171,16 +168,9 @@ RUN make -j "$(nproc)" \
     && make install \
     && find /usr/local/bin /usr/local/sbin -type f -executable -exec strip --strip-all '{}' + || true \
 	&& make clean \
-    && cp -v php.ini-production ${PHP_INI_PATH} \
-    && cp -v php.ini-production /tokaido/config/php/php-default.ini \
-    && ln -s /usr/local/php/bin/php /usr/local/bin/php \
-    && ln -s /usr/local/php/bin/pecl /usr/local/bin/pecl
+    && cp -v php.ini-production "$PHP_INI_DIR/"php.ini
 
-# Extensions are needed for PECL installation steps
-COPY config/extensions.ini ${PHP_INI_DIR}/conf.d/extensions.ini
-RUN echo "include=/tokaido/config/php/extensions.ini" >> ${PHP_INI_PATH}
-
-# Install additional php modules/extensions
+# Install additional modules/extensions
 # hadolint ignore=DL3008
 RUN echo 'deb http://apt.newrelic.com/debian/ newrelic non-free' | tee /etc/apt/sources.list.d/newrelic.list \
     && curl -fsSL https://download.newrelic.com/548C16BF.gpg | apt-key add - \
@@ -188,8 +178,9 @@ RUN echo 'deb http://apt.newrelic.com/debian/ newrelic non-free' | tee /etc/apt/
     && apt-get -y install newrelic-php5 --no-install-recommends \
     && echo "export PATH=$PATH:/usr/local/php/bin" >> /etc/skel/.bashrc \
     && echo "export PATH=$PATH:/usr/local/php/bin" >> /root/.bashrc \
-    && echo "export PATH=$PATH:/usr/local/php/bin" >> /home/tok/.bashrc \
-    && pecl config-set php_ini ${PHP_INI_PATH} \
+    && echo "export PATH=$PATH:/usr/local/php/bin" >> /home/app/.bashrc \
+    && export PATH=$PATH:/usr/local/php/bin \
+    && pecl config-set php_ini /usr/local/php/etc/php.ini \
     && pecl update-channels \
     && printf "\n" | pecl install imagick \
     && printf "\n" | pecl install propro \
@@ -209,44 +200,42 @@ RUN echo 'deb http://apt.newrelic.com/debian/ newrelic non-free' | tee /etc/apt/
 RUN rm -rf /usr/src/php \
     && apt-get remove -y $BUILD_DEPS
 
+# Cleanup
 RUN apt-get clean \
     && rm -rf /tmp/*
 
-# Install custom modules and third-party extensions
-RUN curl -s https://getcomposer.org/installer > composer-setup.php && /usr/local/bin/php composer-setup.php && mv composer.phar /usr/local/bin/composer && rm composer-setup.php  \
-    && su - tok -c "/usr/local/bin/composer global require \"hirak/prestissimo\""  \
-    && su - tok -c "/usr/local/bin/composer global require \"drush/drush\""  \
-    && curl -sLo /usr/local/bin/drush https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar \
-    && curl -sLO https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs952/ghostscript-9.52-linux-x86_64.tgz \
-    && tar xzf ghostscript-9.52-linux-x86_64.tgz \
-    && cp ghostscript-9.52-linux-x86_64/gs-952-linux-x86_64 /usr/local/bin/ghostscript \
-    && curl -sLO https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6-1/wkhtmltox_0.12.6-1.buster_amd64.deb \
-    && dpkg -i wkhtmltox_0.12.6-1.buster_amd64.deb \
-    && cp /usr/local/bin/wkhtmltopdf /usr/bin \
-    && cp /usr/local/bin/wkhtmltoimage /usr/bin \
-    && chmod ug+x /usr/local/bin/drush /usr/local/bin/ghostscript /usr/local/bin/wkhtmltopdf /usr/local/bin/wkhtmltoimage \
-    && chown tok:web /usr/local/bin/drush /usr/local/bin/ghostscript /usr/local/bin/wkhtmltopdf /usr/local/bin/wkhtmltoimage
-
 # Copy config files
+COPY init.sh /usr/local/bin/init.sh
 COPY start.sh /usr/local/bin/start.sh
-COPY config/php-fpm.conf ${PHP_INI_DIR}/php-fpm.conf
-COPY config/php.ini ${PHP_INI_PATH}
-COPY config/www-pool.conf ${PHP_INI_DIR}/www-pool.conf
-COPY config/newrelic.ini ${PHP_INI_DIR}/disabled/newrelic.ini
-COPY config/xdebug.ini ${PHP_INI_DIR}/disabled/xdebug.ini
+COPY config/php-fpm.conf /usr/local/php/etc/php-fpm.conf
+COPY config/php.ini /usr/local/php/etc/php.ini
+COPY config/www-pool.conf /usr/local/php/etc/www-pool.conf
+COPY config/newrelic.ini /usr/local/php/etc/conf.d/newrelic.ini
+COPY config/xdebug.ini /usr/local/php/etc/conf.d/xdebug.ini
 
-# Cleanup
-RUN chown tok:web /usr/local/bin/start.sh \
-    && chmod 555 /usr/local/bin/start.sh \
+# Hardened mode ensures that nothing is executable inside the running container
+# Set N700_HARDENED to any value for the creation of '-hardened' images
+RUN if [ "$N700_HARDENED" ]; then \
+        find /bin -type f -perm -o=x -print0 | xargs -0 chmod o-x \
+        && find /usr -type f -perm -o=x -print0 | xargs -0 chmod o-x \
+        && find /sbin -type f -perm -o=x -print0 | xargs -0 chmod o-x \
+        && find /var -type f -perm -o=x -print0 | xargs -0 chmod o-x \
+        && cp /bin/bash /bin/hidden-shell \
+        && sed -i 's/bash/hidden-shell/' /usr/local/bin/start.sh \
+        && chmod a+x /bin/hidden-shell; fi
+
+RUN chown tok:web /usr/local/bin/init.sh /usr/local/bin/start.sh \
+    && chmod 555 /usr/local/bin/init.sh /usr/local/bin/start.sh \
     && find /tokaido -type d -print0 | xargs -0 chmod 2700 \
-    && mkdir -p /tokaido/logs/fpm \
-    && chmod 770 /tokaido/logs/fpm \
     && chown tok:web /tokaido -R \
     && curl -sLo /usr/local/bin/ep https://github.com/kreuzwerker/envplate/releases/download/v0.0.8/ep-linux \
     && chmod 770 /usr/local/bin/ep \
     && chown tok:root /usr/local/bin/ep \
-    && chmod o+x /usr/local/php/sbin/php-fpm
+    && chmod o+x /usr/local/php/sbin/php-fpm \
+    && chmod o+x /usr/bin/tini
 
+# ENV PHP_INI_DIR=/app/config/fpm/runtime
+# ENV PHP_INI_SCAN_DIR=/app/config/fpm/runtime/conf.d
 WORKDIR /tokaido/site
 EXPOSE 9000
 USER tok

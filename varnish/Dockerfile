@@ -8,9 +8,9 @@ RUN apt-get update  \
         supervisor \
     && echo -e '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d \
     && mkdir -p /tokaido/logs/varnish /var/log/supervisor /var/lib/varnish \
-    && curl -L https://packagecloud.io/varnishcache/varnish60/gpgkey | apt-key add - \
-    && sh -c 'echo "deb https://packagecloud.io/varnishcache/varnish60/debian/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/varnish.list'  \
-    && sh -c 'echo "deb-src https://packagecloud.io/varnishcache/varnish60/debian/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/varnish.list'  \
+    && curl -L https://packagecloud.io/varnishcache/varnish64/gpgkey | apt-key add - \
+    && sh -c 'echo "deb https://packagecloud.io/varnishcache/varnish64/debian/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/varnish.list'  \
+    && sh -c 'echo "deb-src https://packagecloud.io/varnishcache/varnish64/debian/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/varnish.list'  \
     && apt-get update \
     && apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
         varnish \

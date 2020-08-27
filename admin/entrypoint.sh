@@ -10,6 +10,10 @@ while read -r line; do
   export $line
 done < /tokaido/config/.env
 
+printf "${BLUE}Running envplate to configure PHP${NC}\n"
+ep /tokaido/config/php/php.ini
+
+
 # If we're running on a local Tokaido platform, just set up one user SSH key
 if [[ -z "$tok_provider" ]]; then
   echo "Adding your local SSH key to the 'tok' user"

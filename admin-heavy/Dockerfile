@@ -1,14 +1,20 @@
 ARG TOKAIDO_VERSION
-FROM tokaido/admin72:${TOKAIDO_VERSION}
+ARG PHP_VERSION_SHORT
+FROM tokaido/admin${PHP_VERSION_SHORT}:${TOKAIDO_VERSION}
+LABEL io.ironstar.platform=tokaido
+ARG IRONSTAR_CLI_VERSION=v0.7.0
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
 COPY configs/sudoers /etc/sudoers
 COPY configs/fzf.bash /home/tok/.fzf.bash
-ARG IRONSTAR_CLI_VERSION=v0.7.0
+
+# hadolint ignore=DL3003,DL3008
 RUN apt-get update \
-    && apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
+    && apt-get install -y --no-install-recommends -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
         ruby-full \
         sudo \
         bash-completion \
-    && git clone --depth 1 https://github.com/junegunn/fzf.git /home/tok/.fzf \
+    && git clone --quiet --depth 1 https://github.com/junegunn/fzf.git /home/tok/.fzf \
     && cd /home/tok && ./.fzf/install \
     && chown tok:web /home/tok/.fzf -R \
     && chown tok:web /home/tok/.fzf.bash \
@@ -21,7 +27,10 @@ RUN apt-get update \
     && ln -s /usr/share/bash-completion/completions/git /etc/bash_completion.d/git-completion.bash \
     && chmod 750 /home/tok/.composer/vendor/drush/drush/drush \
     && chmod 700 /home/tok/.fzf/bin/fzf \
-    && wget -O iron https://github.com/ironstar-io/ironstar-cli/releases/download/${IRONSTAR_CLI_VERSION}/iron-linux \
-    && chown tok:web iron \
-    && chmod 770 iron \
-    && mv iron /usr/local/bin
+    && curl -sLo /usr/local/bin/iron https://github.com/ironstar-io/ironstar-cli/releases/download/${IRONSTAR_CLI_VERSION}/iron-linux \
+    && chown tok:web /usr/local/bin/iron \
+    && chmod 770 /usr/local/bin/iron \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+ENV SHELL /bin/bash

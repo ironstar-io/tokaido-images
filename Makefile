@@ -22,23 +22,14 @@ help:
 build-all:
 	@$(MAKE) build-base
 	@$(MAKE) build-syslog
-	@$(MAKE) build-php72
-	@$(MAKE) build-php72-fpm
-	@$(MAKE) build-admin72
-	@$(MAKE) build-admin72-heavy
-	@$(MAKE) build-php73
-	@$(MAKE) build-php73-fpm
-	@$(MAKE) build-php74
-	@$(MAKE) build-php74-fpm
-	@$(MAKE) build-admin73
-	@$(MAKE) build-admin73-heavy
-	@$(MAKE) build-admin74
-	@$(MAKE) build-admin74-heavy
-	@$(MAKE) build-proxy
+	@$(MAKE) build-php
+	@$(MAKE) build-admin
+	@$(MAKE) build-admin-heavy
+	# @$(MAKE) build-proxy
 	@$(MAKE) build-nginx
 	@$(MAKE) build-cron72
-	@$(MAKE) build-cron73
-	@$(MAKE) build-cron74
+	# @$(MAKE) build-cron73
+	# @$(MAKE) build-cron74
 	@$(MAKE) build-logrotate
 	@$(MAKE) build-haproxy
 	@$(MAKE) build-varnish
@@ -81,6 +72,10 @@ build-base:
 build-syslog:
 	cd syslog && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/syslog:${TOKAIDO_VERSION}
 
+.PHONY: build-php
+build-php:
+	cd php72 && docker build . --build-arg PHP_VERSION=7.2.33 --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/php72:${TOKAIDO_VERSION}
+
 .PHONY: build-php72
 build-php72:
 	cd php72 && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/php72:${TOKAIDO_VERSION}
@@ -89,11 +84,12 @@ build-php72:
 build-php72-fpm:
 	cd php72-fpm && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/php72-fpm:${TOKAIDO_VERSION}
 
-.PHONY: build-admin72
-build-admin72:
-	cd admin72 && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/admin72:${TOKAIDO_VERSION}
+.PHONY: build-admin
+build-admin:
+	cd admin && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} --build-arg PHP_VERSION_SHORT=72 -t tokaido/admin72:${TOKAIDO_VERSION}
+	cd admin-heavy && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} --build-arg PHP_VERSION_SHORT=72 -t tokaido/admin72-heavy:${TOKAIDO_VERSION}
 
-.PHONY: build-admin72-heavy
+.PHONY: build-admin-heavy
 build-admin72-heavy:
 	cd admin72-heavy && docker build . --build-arg TOKAIDO_VERSION=${TOKAIDO_VERSION} -t tokaido/admin72-heavy:${TOKAIDO_VERSION}
 
