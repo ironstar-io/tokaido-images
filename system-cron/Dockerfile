@@ -1,5 +1,5 @@
 ARG TOKAIDO_VERSION
-FROM tokaido/admin73-heavy:${TOKAIDO_VERSION}
+FROM tokaido/admin74-heavy:${TOKAIDO_VERSION}
 
 ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.1.5/supercronic-linux-amd64 \
     SUPERCRONIC=supercronic-linux-amd64 \
@@ -20,14 +20,12 @@ RUN apt-get update -y \
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 COPY scripts/crontab /tokaido/config/cron/
-COPY scripts/database-backup.sh /tokaido/config/cron/
-COPY scripts/files-backup.sh /tokaido/config/cron/
 
 RUN mkdir -p /tokaido/config/cron/ \
     && chown cron:web /tokaido/config/cron/ -R \
     && chown tok:web /usr/local/bin/entrypoint.sh \
-    && chmod 770 /usr/local/bin/entrypoint.sh \
-    && chmod 760 /tokaido/config/cron/*.sh
+    && chmod 770 /usr/local/bin/entrypoint.sh
+    # && chmod 760 /tokaido/config/cron/*.sh
 
 WORKDIR /tokaido
 CMD ["/usr/local/bin/entrypoint.sh"]

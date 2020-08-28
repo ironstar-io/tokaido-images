@@ -22,38 +22,36 @@ ARG BUILD_DEPS="\
         make \
         pkg-config \
         re2c \
-        bison \
+        libargon2-dev \
 		libcurl4-openssl-dev \
 		libedit-dev \
-		libonig-dev \
 		libsodium-dev \
 		libsqlite3-dev \
 		libssl-dev \
 		libxml2-dev \
 		zlib1g-dev \
-        libargon2-dev \
+        bison \
         libbz2-dev \
         libc-client-dev \
-        libedit-dev \
-        libfreetype6-dev \
         libgmp-dev \
-        libgpgme11-dev \
-        libjpeg-dev \
         libkrb5-dev \
         libldap2-dev \
         libldb-dev \
-        libmagickwand-dev \
-        libmemcached-dev \
-        libonig-dev \
         libpng-dev \
+        libjpeg-dev \
+        libfreetype6-dev \
         libpq-dev \
         libpspell-dev \
+        libedit-dev \
         libreadline-dev \
         libtidy-dev \
         libxslt-dev \
+        libgpgme11-dev \
+        libmagickwand-dev \
+        libmemcached-dev \
         libyaml-dev \
         libzip-dev \
-        libwebp-dev"
+        libwebp-dev "
 
 # persistent / runtime deps
 # hadolint ignore=DL3008
@@ -86,12 +84,12 @@ ENV PHP_CFLAGS="-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_
 ENV PHP_CPPFLAGS="$PHP_CFLAGS"
 ENV PHP_LDFLAGS="-Wl,-O1 -pie"
 
-ENV GPG_KEYS 42670A7FE4D0441C8E4632349E4FDC074A4EF02D 5A52880781F755608BF815FC910DEB46F53EA312
+ENV GPG_KEYS CBAF69F173A0FEA4B537F470D66C9593118BCCB6 F38252826ACD957EF380D39F2F7956BC5DA04B5D
 
-ENV PHP_VERSION 7.4.9
+ENV PHP_VERSION 7.3.21
 ARG PHP_URL="https://www.php.net/distributions/php-${PHP_VERSION}.tar.xz"
 ARG PHP_ASC_URL="https://www.php.net/distributions/php-${PHP_VERSION}.tar.xz.asc"
-ARG PHP_SHA256="23733f4a608ad1bebdcecf0138ebc5fd57cf20d6e0915f98a9444c3f747dc57b"
+ARG PHP_SHA256="4c8b065746ef776d84b7ae47908c21a79e3d4704b86b60d816716b8697c58ce9"
 ARG PHP_MD5=""
 
 RUN mkdir -p /usr/src/php
@@ -139,10 +137,11 @@ RUN export \
         --enable-sysvmsg \
         --enable-sysvsem \
         --enable-sysvshm \
-        --enable-gd \
-        --enable-gd-jis-conv \
+        --enable-wddx \
+        --enable-zip \
         --with-bz2 \
         --with-curl \
+        --with-gd \
         --with-gettext \
         --with-gmp \
         --with-imap \
@@ -152,6 +151,7 @@ RUN export \
         --with-mhash  \
         --with-mysqli \
         --with-openssl \
+        --with-pcre-regex \
         --with-pdo-mysql \
         --with-pdo-pgsql \
         --with-pgsql  \
@@ -162,10 +162,9 @@ RUN export \
         --with-xmlrpc \
         --with-xsl \
         --with-zlib \
-        --with-freetype \
-        --with-jpeg \
-        --with-webp \
-        --with-pear
+        --with-jpeg-dir \
+        --with-png-dir \
+        --with-webp-dir
 
 
 # compile PHP

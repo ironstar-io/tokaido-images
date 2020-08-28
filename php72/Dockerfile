@@ -51,6 +51,7 @@ ARG BUILD_DEPS="\
         libmagickwand-dev \
         libmemcached-dev \
         libyaml-dev \
+        libzip-dev \
         libwebp-dev "
 
 # persistent / runtime deps
@@ -84,11 +85,12 @@ ARG PHP_CFLAGS="-fstack-protector-strong -fpic -fpie -O2 -D_LARGEFILE_SOURCE -D_
 ARG PHP_CPPFLAGS="$PHP_CFLAGS"
 ARG PHP_LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
-# Download and verify PHP source
 ENV GPG_KEYS="1729F83938DA44E27BA0F4D3DBDB397470D12172 B1B44D8F021E4E2D6021E995DC9FF8D3EE5AF27F"
-ENV PHP_URL="https://www.php.net/distributions/php-${PHP_VERSION}.tar.xz"
-ENV PHP_ASC_URL="https://www.php.net/distributions/php-${PHP_VERSION}.tar.xz.asc"
-ENV PHP_SHA256="0f160a3483ffce36be5962fab7bcf09d605ee66c5707df83e4195cb796bbb03a"
+
+ENV PHP_VERSION=7.2.33
+ARG PHP_URL="https://www.php.net/distributions/php-${PHP_VERSION}.tar.xz"
+ARG PHP_ASC_URL="https://www.php.net/distributions/php-${PHP_VERSION}.tar.xz.asc"
+ARG PHP_SHA256="0f160a3483ffce36be5962fab7bcf09d605ee66c5707df83e4195cb796bbb03a"
 
 RUN mkdir -p /usr/src/php
 WORKDIR /usr/src
