@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
+printf "${BLUE}Running envplate to configure PHP${NC}\n"
+ep /tokaido/config/php/php.ini
+
 if ! [[ -f /tokaido/site/.tok/cron/crontab ]]; then
     echo "WARN: No crontab found"
     keepgoing=1

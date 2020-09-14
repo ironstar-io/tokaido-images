@@ -71,8 +71,8 @@ ARG PHP_INI_PATH=/tokaido/config/php/php.ini
 ARG PHP_DIR=/usr/local/php
 RUN mkdir -p "$PHP_INI_DIR/conf.d" "$PHP_INI_DIR/disabled" \
     && mkdir -p /usr/local/php/bin \
-    && chown tok:root /usr/local/php/bin \
-    && chmod 2770 /usr/local/php/bin
+    && chown tok:web /usr/local/php/bin \
+    && chmod 2775 /usr/local/php/bin
 
 # Apply stack smash protection to functions using local buffers and alloca()
 # Make PHP's main executable position-independent (improves ASLR security mechanism, and has no performance impact on x86_64)
@@ -240,7 +240,7 @@ COPY config/xdebug.ini ${PHP_INI_DIR}/disabled/xdebug.ini
 # Cleanup
 RUN chown tok:web /usr/local/bin/start.sh \
     && chmod 555 /usr/local/bin/start.sh \
-    && find /tokaido -type d -print0 | xargs -0 chmod 2700 \
+    && find /tokaido -type d -print0 | xargs -0 chmod 2750 \
     && mkdir -p /tokaido/logs/fpm \
     && chmod 770 /tokaido/logs/fpm \
     && chown tok:web /tokaido -R \

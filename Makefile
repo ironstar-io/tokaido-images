@@ -1,6 +1,6 @@
 SHELL 				:= /bin/bash
 PUBLIC_IMAGE_REPO	?= tokaido/
-PRIVATE_IMAGE_REPO	?= asia.gcr.io/a1-cw-ironstar-io/
+# PRIVATE_IMAGE_REPO	?= asia.gcr.io/a1-cw-ironstar-io/
 
 # Tokaido Full Version, for example 1.10.3
 ifndef TOKAIDO_VERSION
@@ -113,105 +113,105 @@ deploy-syslog:
 .PHONY: deploy-php
 deploy-php:
 	docker push tokaido/php72:${TOKAIDO_VERSION}
-	docker tag tokaido/php72:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-php72:${TOKAIDO_VERSION}
-	docker tag tokaido/php72:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/php72:${TOKAIDO_VERSION}
-	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-php72:${TOKAIDO_VERSION}
-	docker push harbor.a2.cw.ironstar.io/tokaido/php72:${TOKAIDO_VERSION}
+	# docker tag tokaido/php72:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-php72:${TOKAIDO_VERSION}
+	# docker tag tokaido/php72:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/php72:${TOKAIDO_VERSION}
+	# docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-php72:${TOKAIDO_VERSION}
+	# docker push harbor.a2.cw.ironstar.io/tokaido/php72:${TOKAIDO_VERSION}
 
 	docker push tokaido/php73:${TOKAIDO_VERSION}
-	docker tag tokaido/php73:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-php73:${TOKAIDO_VERSION}
-	docker tag tokaido/php73:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/php73:${TOKAIDO_VERSION}
-	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-php73:${TOKAIDO_VERSION}
-	docker push harbor.a2.cw.ironstar.io/tokaido/php73:${TOKAIDO_VERSION}
+	# docker tag tokaido/php73:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-php73:${TOKAIDO_VERSION}
+	# docker tag tokaido/php73:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/php73:${TOKAIDO_VERSION}
+	# docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-php73:${TOKAIDO_VERSION}
+	# docker push harbor.a2.cw.ironstar.io/tokaido/php73:${TOKAIDO_VERSION}
 
 	docker push tokaido/php74:${TOKAIDO_VERSION}
-	docker tag tokaido/php74:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-php74:${TOKAIDO_VERSION}
-	docker tag tokaido/php74:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/php74:${TOKAIDO_VERSION}
-	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-php74:${TOKAIDO_VERSION}
-	docker push harbor.a2.cw.ironstar.io/tokaido/php74:${TOKAIDO_VERSION}
+	# docker tag tokaido/php74:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-php74:${TOKAIDO_VERSION}
+	# docker tag tokaido/php74:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/php74:${TOKAIDO_VERSION}
+	# docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-php74:${TOKAIDO_VERSION}
+	# docker push harbor.a2.cw.ironstar.io/tokaido/php74:${TOKAIDO_VERSION}
 
 .PHONY: deploy-admin
 deploy-admin:
 	docker push tokaido/admin72:${TOKAIDO_VERSION}
-	docker tag tokaido/admin72:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-admin72:${TOKAIDO_VERSION}
-	docker tag tokaido/admin72:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/admin72:${TOKAIDO_VERSION}
-	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-admin72:${TOKAIDO_VERSION}
+	# docker tag tokaido/admin72:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-admin72:${TOKAIDO_VERSION}
+	# docker tag tokaido/admin72:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/admin72:${TOKAIDO_VERSION}
+	# docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-admin72:${TOKAIDO_VERSION}
 	docker push tokaido/admin72-heavy:${TOKAIDO_VERSION}
-	docker tag tokaido/admin72-heavy:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-admin72-heavy:${TOKAIDO_VERSION}
-	docker tag tokaido/admin72-heavy:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/admin72-heavy:${TOKAIDO_VERSION}
-	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-admin72-heavy:${TOKAIDO_VERSION}
+	# docker tag tokaido/admin72-heavy:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-admin72-heavy:${TOKAIDO_VERSION}
+	# docker tag tokaido/admin72-heavy:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/admin72-heavy:${TOKAIDO_VERSION}
+	# docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-admin72-heavy:${TOKAIDO_VERSION}
 
 	docker push tokaido/admin73:${TOKAIDO_VERSION}
-	docker tag tokaido/admin73:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-admin73:${TOKAIDO_VERSION}
-	docker tag tokaido/admin73:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/admin73:${TOKAIDO_VERSION}
-	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-admin73:${TOKAIDO_VERSION}
+	# docker tag tokaido/admin73:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-admin73:${TOKAIDO_VERSION}
+	# docker tag tokaido/admin73:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/admin73:${TOKAIDO_VERSION}
+	# docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-admin73:${TOKAIDO_VERSION}
 	docker push tokaido/admin73-heavy:${TOKAIDO_VERSION}
-	docker tag tokaido/admin73-heavy:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-admin73-heavy:${TOKAIDO_VERSION}
-	docker tag tokaido/admin73-heavy:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/admin73-heavy:${TOKAIDO_VERSION}
-	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-admin73-heavy:${TOKAIDO_VERSION}
+	# docker tag tokaido/admin73-heavy:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-admin73-heavy:${TOKAIDO_VERSION}
+	# docker tag tokaido/admin73-heavy:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/admin73-heavy:${TOKAIDO_VERSION}
+	# docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-admin73-heavy:${TOKAIDO_VERSION}
 
 	docker push tokaido/admin74:${TOKAIDO_VERSION}
-	docker tag tokaido/admin74:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-admin74:${TOKAIDO_VERSION}
-	docker tag tokaido/admin74:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/admin74:${TOKAIDO_VERSION}
-	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-admin74:${TOKAIDO_VERSION}
+	# docker tag tokaido/admin74:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-admin74:${TOKAIDO_VERSION}
+	# docker tag tokaido/admin74:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/admin74:${TOKAIDO_VERSION}
+	# docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-admin74:${TOKAIDO_VERSION}
 	docker push tokaido/admin74-heavy:${TOKAIDO_VERSION}
-	docker tag tokaido/admin74-heavy:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-admin74-heavy:${TOKAIDO_VERSION}
-	docker tag tokaido/admin74-heavy:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/admin74-heavy:${TOKAIDO_VERSION}
-	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-admin74-heavy:${TOKAIDO_VERSION}
+	# docker tag tokaido/admin74-heavy:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-admin74-heavy:${TOKAIDO_VERSION}
+	# docker tag tokaido/admin74-heavy:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/admin74-heavy:${TOKAIDO_VERSION}
+	# docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-admin74-heavy:${TOKAIDO_VERSION}
 
 
 .PHONY: deploy-nginx
 deploy-nginx:
 	docker push tokaido/nginx:${TOKAIDO_VERSION}
-	docker tag tokaido/nginx:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-nginx:${TOKAIDO_VERSION}
-	docker tag tokaido/nginx:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/nginx:${TOKAIDO_VERSION}
-	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-nginx:${TOKAIDO_VERSION}
-	docker push harbor.a2.cw.ironstar.io/tokaido/nginx:${TOKAIDO_VERSION}
+	# docker tag tokaido/nginx:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-nginx:${TOKAIDO_VERSION}
+	# docker tag tokaido/nginx:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/nginx:${TOKAIDO_VERSION}
+	# docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-nginx:${TOKAIDO_VERSION}
+	# docker push harbor.a2.cw.ironstar.io/tokaido/nginx:${TOKAIDO_VERSION}
 
 
 .PHONY: deploy-cron
 deploy-cron:
 	docker push tokaido/cron72:${TOKAIDO_VERSION}
-	docker tag tokaido/cron72:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-cron72:${TOKAIDO_VERSION}
-	docker tag tokaido/cron72:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/cron72:${TOKAIDO_VERSION}
-	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-cron72:${TOKAIDO_VERSION}
-	docker push harbor.a2.cw.ironstar.io/tokaido/cron72:${TOKAIDO_VERSION}
+	# docker tag tokaido/cron72:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-cron72:${TOKAIDO_VERSION}
+	# docker tag tokaido/cron72:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/cron72:${TOKAIDO_VERSION}
+	# docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-cron72:${TOKAIDO_VERSION}
+	# docker push harbor.a2.cw.ironstar.io/tokaido/cron72:${TOKAIDO_VERSION}
 
 	docker push tokaido/cron73:${TOKAIDO_VERSION}
-	docker tag tokaido/cron73:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-cron73:${TOKAIDO_VERSION}
-	docker tag tokaido/cron73:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/cron73:${TOKAIDO_VERSION}
-	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-cron73:${TOKAIDO_VERSION}
-	docker push harbor.a2.cw.ironstar.io/tokaido/cron73:${TOKAIDO_VERSION}
+	# docker tag tokaido/cron73:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-cron73:${TOKAIDO_VERSION}
+	# docker tag tokaido/cron73:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/cron73:${TOKAIDO_VERSION}
+	# docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-cron73:${TOKAIDO_VERSION}
+	# docker push harbor.a2.cw.ironstar.io/tokaido/cron73:${TOKAIDO_VERSION}
 
 	docker push tokaido/cron74:${TOKAIDO_VERSION}
-	docker tag tokaido/cron74:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-cron74:${TOKAIDO_VERSION}
-	docker tag tokaido/cron74:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/cron74:${TOKAIDO_VERSION}
-	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-cron74:${TOKAIDO_VERSION}
-	docker push harbor.a2.cw.ironstar.io/tokaido/cron74:${TOKAIDO_VERSION}
+	# docker tag tokaido/cron74:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-cron74:${TOKAIDO_VERSION}
+	# docker tag tokaido/cron74:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/cron74:${TOKAIDO_VERSION}
+	# docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-cron74:${TOKAIDO_VERSION}
+	# docker push harbor.a2.cw.ironstar.io/tokaido/cron74:${TOKAIDO_VERSION}
 
 .PHONY: deploy-logrotate
 deploy-logrotate:
 	docker push tokaido/logrotate:${TOKAIDO_VERSION}
-	docker tag tokaido/logrotate:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-logrotate:${TOKAIDO_VERSION}
-	docker tag tokaido/logrotate:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/logrotate:${TOKAIDO_VERSION}
-	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-logrotate:${TOKAIDO_VERSION}
-	docker push harbor.a2.cw.ironstar.io/tokaido/logrotate:${TOKAIDO_VERSION}
+	# docker tag tokaido/logrotate:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-logrotate:${TOKAIDO_VERSION}
+	# docker tag tokaido/logrotate:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/logrotate:${TOKAIDO_VERSION}
+	# docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-logrotate:${TOKAIDO_VERSION}
+	# docker push harbor.a2.cw.ironstar.io/tokaido/logrotate:${TOKAIDO_VERSION}
 
 .PHONY: deploy-haproxy
 deploy-haproxy:
 	docker push tokaido/haproxy:${TOKAIDO_VERSION}
-	docker tag tokaido/haproxy:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-haproxy:${TOKAIDO_VERSION}
-	docker tag tokaido/haproxy:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/haproxy:${TOKAIDO_VERSION}
-	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-haproxy:${TOKAIDO_VERSION}
-	docker push harbor.a2.cw.ironstar.io/tokaido/haproxy:${TOKAIDO_VERSION}
+	# docker tag tokaido/haproxy:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-haproxy:${TOKAIDO_VERSION}
+	# docker tag tokaido/haproxy:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/haproxy:${TOKAIDO_VERSION}
+	# docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-haproxy:${TOKAIDO_VERSION}
+	# docker push harbor.a2.cw.ironstar.io/tokaido/haproxy:${TOKAIDO_VERSION}
 
 .PHONY: deploy-varnish
 deploy-varnish:
 	docker push tokaido/varnish:${TOKAIDO_VERSION}
-	docker tag tokaido/varnish:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-varnish:${TOKAIDO_VERSION}
-	docker tag tokaido/varnish:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/varnish:${TOKAIDO_VERSION}
-	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-varnish:${TOKAIDO_VERSION}
-	docker push harbor.a2.cw.ironstar.io/tokaido/varnish:${TOKAIDO_VERSION}
+	# docker tag tokaido/varnish:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-varnish:${TOKAIDO_VERSION}
+	# docker tag tokaido/varnish:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/varnish:${TOKAIDO_VERSION}
+	# docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-varnish:${TOKAIDO_VERSION}
+	# docker push harbor.a2.cw.ironstar.io/tokaido/varnish:${TOKAIDO_VERSION}
 
 .PHONY: deploy-kishu
 deploy-kishu:
@@ -220,7 +220,7 @@ deploy-kishu:
 .PHONY: deploy-system-cron
 deploy-system-cron:
 	docker push tokaido/system-cron:${TOKAIDO_VERSION}
-	docker tag tokaido/system-cron:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-system-cron:${TOKAIDO_VERSION}
-	docker tag tokaido/system-cron:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/system-cron:${TOKAIDO_VERSION}
-	docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-system-cron:${TOKAIDO_VERSION}
-	docker push harbor.a2.cw.ironstar.io/tokaido/system-cron:${TOKAIDO_VERSION}
+	# docker tag tokaido/system-cron:${TOKAIDO_VERSION} asia.gcr.io/a1-cw-ironstar-io/tokaido-system-cron:${TOKAIDO_VERSION}
+	# docker tag tokaido/system-cron:${TOKAIDO_VERSION} harbor.a2.cw.ironstar.io/tokaido/system-cron:${TOKAIDO_VERSION}
+	# docker push asia.gcr.io/a1-cw-ironstar-io/tokaido-system-cron:${TOKAIDO_VERSION}
+	# docker push harbor.a2.cw.ironstar.io/tokaido/system-cron:${TOKAIDO_VERSION}

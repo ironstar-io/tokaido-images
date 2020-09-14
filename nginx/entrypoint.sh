@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
+# Colours
+RED='\e[31m'
+BLUE='\e[34m'
+GREEN='\e[32m'
+YELLOW='\e[33m'
+PURPLE='\e[35m'
+CYAN='\e[36m'
+NC='\033[0m' # No Color
 
 ############################
 # TLS Configuration
@@ -23,15 +31,6 @@ openssl req -subj "/CN=*.nginx.nozomi.ironstar.io/O=Nozomi Hosting Platform./C=A
 # then any value set as an environment variable (FASTCGI_BUFFERS) won't be used
 #
 ################################################################################
-
-# Colours
-RED='\e[31m'
-BLUE='\e[34m'
-GREEN='\e[32m'
-YELLOW='\e[33m'
-PURPLE='\e[35m'
-CYAN='\e[36m'
-NC='\033[0m' # No Color
 
 printf "${GREEN}NGINX container is starting...${NC}\n"
 
