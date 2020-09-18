@@ -12,7 +12,7 @@ COPY configs/.bashrc /etc/skel/.bashrc
 USER root
 
 ARG RUNLEVEL=1
-ARG PHPRC=/tokaido/config/php/php-default.ini
+ARG PHPRC=/app/config/php/php-default.ini
 WORKDIR /tmp
 
 COPY configs/sshd_config /etc/ssh/sshd_config
@@ -21,7 +21,7 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod 700 /usr/local/bin/entrypoint.sh \
     && chmod 755 /etc/motd.sh  \
     && rm /etc/motd \
-    && rm /tokaido/config/php/php-fpm.conf /tokaido/config/php/www-pool.conf /tokaido/config/php/disabled/newrelic.ini /usr/local/php/sbin/php-fpm
+    && rm /app/config/php/php-fpm.conf /app/config/php/www-pool.conf /app/config/php/disabled/newrelic.ini /usr/local/php/sbin/php-fpm
 
 # hadolint ignore=DL3003,DL3008
 RUN apt-get install -y --no-install-recommends build-essential \
@@ -39,7 +39,6 @@ RUN apt-get update  \
         openssh-server \
         locales-all \
         less \
-    # && curl -sL https://deb.nodesource.com/setup_10.x | bash - \
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
     && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash \
@@ -47,7 +46,7 @@ RUN apt-get update  \
     && bash -c 'source $HOME/.nvm/nvm.sh && nvm install v10' \
     && bash -c 'source $HOME/.nvm/nvm.sh && nvm install v12' \
     && bash -c 'source $HOME/.nvm/nvm.sh && nvm install v14' \
-    && bash -c 'source $HOME/.nvm/nvm.sh && nvm alias default v10' \
+    && bash -c 'source $HOME/.nvm/nvm.sh && nvm alias default v12' \
     && apt-get update \
     && apt-get install -y --no-install-recommends -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
         yarn \
@@ -65,11 +64,13 @@ RUN apt-get update  \
     && COMPOSER_HOME=/usr/local/drush/global COMPOSER_BIN_DIR=/usr/local/drush/global/bin COMPOSER_VENDOR_DIR=/usr/local/drush/global/vendor composer require drush/drush:^8 \
     && chmod 750 /home/tok/.composer/vendor/drush/drush/drush \
     && apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && rm /etc/ssh/ssh_host_dsa_key* /etc/ssh/ssh_host_ecdsa_key* /etc/ssh/ssh_host_ed25519_key*
+
 
 RUN rm -rf /tmp/*
 
-WORKDIR /tokaido/site
+WORKDIR /app/site
 
 ENV SHELL /bin/bash
 EXPOSE 22

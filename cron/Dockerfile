@@ -13,9 +13,9 @@ RUN curl -fsSLO "$SUPERCRONIC_URL" \
     && chmod +x "$SUPERCRONIC" \
     && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
     && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic \
-    && mkdir -p /tokaido/logs/client-cron \
-    && chown -R tok:web /tokaido/logs/client-cron \
-    && chmod 770 /tokaido/logs/client-cron
+    && mkdir -p /app/logs/client-cron \
+    && chown -R tok:web /app/logs/client-cron \
+    && chmod 770 /app/logs/client-cron
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
@@ -23,6 +23,6 @@ RUN chmod 770 /usr/local/bin/entrypoint.sh && \
     chown tok:web /usr/local/bin/entrypoint.sh
 
 USER tok
-WORKDIR /tokaido/site
+WORKDIR /app/site
 
 CMD ["/usr/local/bin/entrypoint.sh"]

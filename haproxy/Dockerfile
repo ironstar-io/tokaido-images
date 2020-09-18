@@ -26,9 +26,9 @@ RUN apt-get update  \
     && apt-get install -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -t $(lsb_release -sc)-backports \
         haproxy=1.8.\* \
     && usermod -u 1005 -g haproxy haproxy \
-    && mkdir -p /tokaido/ssl \
-    && chmod 770 /tokaido/ssl/ \
-    && chown haproxy:haproxy /tokaido/ssl/ \
+    && mkdir -p /app/ssl \
+    && chmod 770 /app/ssl/ \
+    && chown haproxy:haproxy /app/ssl/ \
     && chown haproxy:haproxy /usr/local/bin/entrypoint.sh \
 	&& chmod 750 /usr/local/bin/entrypoint.sh \
     && chown -R haproxy:haproxy /usr/local/etc/haproxy \

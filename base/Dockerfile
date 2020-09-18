@@ -51,14 +51,15 @@ RUN apt-get update  \
     && usermod -a -G web varnish \
     && useradd -s /sbin/nologin -g web -u 1005 haproxy  \
     && useradd -s /sbin/nologin -g web -u 1006 syslog \
-    && mkdir -p /tokaido/logs/cron /tokaido/config /tokaido/files /tokaido/private /tokaido/site \
-    && touch /tokaido/config/.env \
-    && chmod 770 /tokaido/logs/ -R \
-    && chmod 2770 /tokaido/files /tokaido/private \
-    && chmod 750 /tokaido/config /tokaido/site \
-    && chown tok:web /tokaido -R  \
+    && mkdir -p /app/logs/cron /app/config /app/files /app/private /app/site \
+    && touch /app/config/.env \
+    && chmod 770 /app/logs/ -R \
+    && chmod 2770 /app/files /app/private \
+    && chmod 750 /app/config /app/site \
+    && chown tok:web /app -R  \
     && chown tok:web /home/tok -R  \
-    && chown tok:web /home/tok/.* -R
+    && chown tok:web /home/tok/.* -R \
+    && ln -s /app /tokaido
 
 # Lock down the environment by ensuring that non-essential users and paths are sterilised
 RUN userdel backup \

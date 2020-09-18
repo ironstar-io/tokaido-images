@@ -1,1 +1,1 @@
-15 14 * * *     /usr/sbin/logrotate -v /tokaido/config/logrotate/logrotate.conf
+0 0 * * *     /usr/sbin/logrotate -v /app/config/logrotate/logrotate.conf

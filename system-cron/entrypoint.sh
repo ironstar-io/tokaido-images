@@ -12,4 +12,4 @@ region = $BACKUPS_AWS_REGION
 EOF
 
 umask 002
-supercronic /tokaido/config/cron/crontab
+ENTRYPOINT ["/usr/local/bin/supercronic", "-log=/app/logs/system-cron.log", "/app/config/cron/crontab"]

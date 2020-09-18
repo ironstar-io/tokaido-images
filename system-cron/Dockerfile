@@ -10,22 +10,22 @@ RUN apt-get update -y \
     && chmod +x "$SUPERCRONIC" \
     && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
     && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic \
-    && mkdir -p /tokaido/logs/cron /tokaido/config/cron \
+    && mkdir -p /app/logs/cron /app/config/cron \
     && useradd -s /bin/bash -g web -m -K UMASK=002 cron \
     && usermod -p '*' cron \
     && chmod 700 /home/cron \
     && chown cron:root /home/cron/ -R \
-    && chown -R cron:web /tokaido/logs/cron \
-    && chmod 770 /tokaido/logs/cron
+    && chown -R cron:web /app/logs/cron \
+    && chmod 770 /app/logs/cron
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
-COPY scripts/crontab /tokaido/config/cron/
+COPY scripts/crontab /app/config/cron/
 
-RUN mkdir -p /tokaido/config/cron/ \
-    && chown cron:web /tokaido/config/cron/ -R \
+RUN mkdir -p /app/config/cron/ \
+    && chown cron:web /app/config/cron/ -R \
     && chown tok:web /usr/local/bin/entrypoint.sh \
     && chmod 770 /usr/local/bin/entrypoint.sh
-    # && chmod 760 /tokaido/config/cron/*.sh
+    # && chmod 760 /app/config/cron/*.sh
 
-WORKDIR /tokaido
+WORKDIR /app
 CMD ["/usr/local/bin/entrypoint.sh"]

@@ -2,7 +2,7 @@
 drupal_root=${DRUPAL_ROOT:-docroot}
 export PATH=$PATH:$HOME/.composer/vendor/bin
 export DRUSH_LAUNCHER_FALLBACK=/usr/local/drush/global/bin/drush
-source /tokaido/config/.env
+source /app/config/.env
 
 # If not running interactively, don't do anything
 case $- in
@@ -130,7 +130,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-cd /tokaido/site/${drupal_root}
+cd /app/site/${drupal_root}
 
 echo "Checking your site's database connection. This might take a moment..."
 echo "You can press CTRL+C to continue at any time"

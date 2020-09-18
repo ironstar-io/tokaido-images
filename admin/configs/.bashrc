@@ -6,11 +6,11 @@
 drupal_root=${DRUPAL_ROOT:-docroot}
 export PATH=$PATH:$HOME/.composer/vendor/bin
 export DRUSH_LAUNCHER_FALLBACK=/usr/local/drush/global/bin/drush
-if [ -f /tokaido/config/.env ]; then
-    source /tokaido/config/.env
+if [ -f /app/config/.env ]; then
+    source /app/config/.env
 fi
-if [ -d /tokaido/site/${drupal_root} ]; then
-    cd /tokaido/site/${drupal_root}
+if [ -d /app/site/${drupal_root} ]; then
+    cd /app/site/${drupal_root}
 fi
 
 

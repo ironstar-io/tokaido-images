@@ -7,7 +7,7 @@ RUN apt-get update  \
         procps \
         supervisor \
     && echo -e '#!/bin/sh\nexit 0' > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d \
-    && mkdir -p /tokaido/logs/varnish /var/log/supervisor /var/lib/varnish \
+    && mkdir -p /app/logs/varnish /var/log/supervisor /var/lib/varnish \
     && curl -L https://packagecloud.io/varnishcache/varnish64/gpgkey | apt-key add - \
     && sh -c 'echo "deb https://packagecloud.io/varnishcache/varnish64/debian/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/varnish.list'  \
     && sh -c 'echo "deb-src https://packagecloud.io/varnishcache/varnish64/debian/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/varnish.list'  \
@@ -23,8 +23,8 @@ COPY config/supervisord.conf /etc/supervisor/supervisord.conf
 COPY config/log_format.conf /etc/varnish/log_format.conf
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
-RUN chown varnish:web /tokaido/logs/varnish -R \
-    && chmod 700 /tokaido/logs/varnish \
+RUN chown varnish:web /app/logs/varnish -R \
+    && chmod 700 /app/logs/varnish \
     && chown varnish:web /etc/varnish -R \
     && chown varnish:web /var/log/supervisor/ /etc/supervisor -R\
     && chown varnish:web /var/lib/varnish \

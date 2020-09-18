@@ -2,8 +2,8 @@
 
 set -eo pipefail
 
-chmod 770 /tokaido/logs/varnish
-chown varnish:web /tokaido/logs/varnish
+chmod 770 /app/logs/varnish
+chown varnish:web /app/logs/varnish
 
 VARNISH_BYPASS="${VARNISH_BYPASS:-false}"
 VARNISH_PURGE_KEY="${VARNISH_PURGE_KEY:defaultlocalpurgekey}"

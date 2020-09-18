@@ -67,8 +67,8 @@ RUN apt-get update \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-ARG PHP_INI_DIR=/tokaido/config/php
-ARG PHP_INI_PATH=/tokaido/config/php/php.ini
+ARG PHP_INI_DIR=/app/config/php
+ARG PHP_INI_PATH=/app/config/php/php.ini
 ARG PHP_DIR=/usr/local/php
 RUN mkdir -p "$PHP_INI_DIR/conf.d" "$PHP_INI_DIR/disabled" \
     && mkdir -p /usr/local/php/bin \
@@ -175,13 +175,13 @@ RUN make -j "$(nproc)" \
     && find /usr/local/bin /usr/local/sbin -type f -executable -exec strip --strip-all '{}' + || true \
 	&& make clean \
     && cp -v php.ini-production ${PHP_INI_PATH} \
-    && cp -v php.ini-production /tokaido/config/php/php-default.ini \
+    && cp -v php.ini-production /app/config/php/php-default.ini \
     && ln -s /usr/local/php/bin/php /usr/local/bin/php \
     && ln -s /usr/local/php/bin/pecl /usr/local/bin/pecl
 
 # Extensions are needed for PECL installation steps
 COPY config/extensions.ini ${PHP_INI_DIR}/conf.d/extensions.ini
-RUN echo "include=/tokaido/config/php/extensions.ini" >> ${PHP_INI_PATH}
+RUN echo "include=/app/config/php/extensions.ini" >> ${PHP_INI_PATH}
 
 # Install additional php modules/extensions
 # hadolint ignore=DL3008
@@ -241,16 +241,16 @@ COPY config/xdebug.ini ${PHP_INI_DIR}/disabled/xdebug.ini
 # Cleanup
 RUN chown tok:web /usr/local/bin/start.sh \
     && chmod 555 /usr/local/bin/start.sh \
-    && find /tokaido -type d -print0 | xargs -0 chmod 2750 \
-    && mkdir -p /tokaido/logs/fpm \
-    && chmod 770 /tokaido/logs/fpm \
-    && chown tok:web /tokaido -R \
+    && find /app -type d -print0 | xargs -0 chmod 2750 \
+    && mkdir -p /app/logs/fpm \
+    && chmod 770 /app/logs/fpm \
+    && chown tok:web /app -R \
     && curl -sLo /usr/local/bin/ep https://github.com/kreuzwerker/envplate/releases/download/v0.0.8/ep-linux \
     && chmod 770 /usr/local/bin/ep \
     && chown tok:root /usr/local/bin/ep \
     && chmod o+x /usr/local/php/sbin/php-fpm
 
-WORKDIR /tokaido/site
+WORKDIR /app/site
 EXPOSE 9000
 USER tok
 

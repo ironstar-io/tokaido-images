@@ -10,27 +10,27 @@ RUN apt-get clean \
         gnupg \
         syslog-ng \
     && chown syslog /etc/syslog-ng -R \
-    && mkdir -p /tokaido/logs/nginx \
-    && chown nginx:web /tokaido/logs/nginx \
-    && chmod 2770 /tokaido/logs/nginx \
-    && mkdir -p /tokaido/logs/fpm \
-    && chown tok:web /tokaido/logs/fpm \
-    && chmod 2770 /tokaido/logs/fpm \
-    && mkdir -p /tokaido/logs/varnish \
-    && chown varnish:web /tokaido/logs/varnish \
-    && chmod 2770 /tokaido/logs/varnish \
-    && mkdir -p /tokaido/logs/haproxy \
-    && chown haproxy:web /tokaido/logs/haproxy \
-    && chmod 2770 /tokaido/logs/haproxy \
-    && mkdir -p /tokaido/logs/syslog  \
-    && chown syslog:web /tokaido/logs/syslog \
-    && chmod 2770 /tokaido/logs/syslog \
-    && chmod 2770 /tokaido/logs/ \
-    && chown syslog:web /tokaido/logs/
+    && mkdir -p /app/logs/nginx \
+    && chown nginx:web /app/logs/nginx \
+    && chmod 2770 /app/logs/nginx \
+    && mkdir -p /app/logs/fpm \
+    && chown tok:web /app/logs/fpm \
+    && chmod 2770 /app/logs/fpm \
+    && mkdir -p /app/logs/varnish \
+    && chown varnish:web /app/logs/varnish \
+    && chmod 2770 /app/logs/varnish \
+    && mkdir -p /app/logs/haproxy \
+    && chown haproxy:web /app/logs/haproxy \
+    && chmod 2770 /app/logs/haproxy \
+    && mkdir -p /app/logs/syslog  \
+    && chown syslog:web /app/logs/syslog \
+    && chmod 2770 /app/logs/syslog \
+    && chmod 2770 /app/logs/ \
+    && chown syslog:web /app/logs/
 
 
 USER syslog
-WORKDIR /tokaido/logs
+WORKDIR /app/logs
 EXPOSE 5514
 EXPOSE 5601
 CMD ["/usr/sbin/syslog-ng", "-e", "-F", "--pidfile=/tmp/syslog-ng.pid", "--persist-file=/tmp/syslog-ng.persist", "--control=/tmp/syslog-ng.ctl"]

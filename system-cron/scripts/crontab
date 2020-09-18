@@ -1,4 +1,6 @@
-0 */2 * * * find /tokaido/storage/public/ -type d -print0 | xargs -P0 -0 chmod u+rwx,g+srwx,o+rx,o-w
-0 */2 * * * find /tokaido/storage/public/ -type f -print0 | xargs -P0 -0 chmod u+rw,g+rw,ug-x,o+r,o-wx
-0 */2 * * * find /tokaido/storage/private/ -type d -print0 | xargs -P0 -0 chmod u+rwx,g+srwx,o-rwx
-0 */2 * * * find /tokaido/storage/private/ -type f -print0 | xargs -P0 -0 chmod u+rw,g+rw,ug-x,o-rwx
+0 */2 * * * find /app/storage/public/ -type d -print0 | xargs -P0 -0 chmod u+rwx,g+srwx,o+rx,o-w
+0 */2 * * * find /app/storage/public/ -type f -print0 | xargs -P0 -0 chmod u+rw,g+rw,ug-x,o+r,o-wx
+0 */2 * * * find /app/storage/private/ -type d -print0 | xargs -P0 -0 chmod u+rwx,g+srwx,o-rwx
+0 */2 * * * find /app/storage/private/ -type f -print0 | xargs -P0 -0 chmod u+rw,g+rw,ug-x,o-rwx
+30 0 * * * find /app/logs/archive/ -type f -name \*.gz -mtime +90 -delete
+30 0 * * * find /app/logs/ -type f -name \*.gz -mtime +1 -print0 | xargs -P0 -0 mv /app/logs/archive

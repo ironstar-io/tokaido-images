@@ -15,7 +15,7 @@ NC='\033[0m' # No Color
 ############################
 
 printf "${YELLOW}Creating TLS Certificate...${NC}\n"
-openssl req -subj "/CN=*.nginx.nozomi.ironstar.io/O=Nozomi Hosting Platform./C=AU" -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /tokaido/config/nginx/runtime/tls/default.key -out /tokaido/config/nginx/runtime/tls/default.crt
+openssl req -subj "/CN=*.nginx.nozomi.ironstar.io/O=Nozomi Hosting Platform./C=AU" -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /app/config/nginx/runtime/tls/default.key -out /app/config/nginx/runtime/tls/default.crt
 
 
 ################################################################################
@@ -63,15 +63,15 @@ tokaidoSettings[FASTCGI_BUFFER_SIZE]="null"
 tokaidoSettings[DRUPAL_ROOT]="null"
 
 # If there is a tokaido config, look up any values
-if [ -f /tokaido/site/.tok/config.yml ]; then
-    tokaidoSettings[WORKER_CONNECTIONS]="$(yq r /tokaido/site/.tok/config.yml nginx.workerconnections)"
-    tokaidoSettings[TYPES_HASH_MAX_SIZE]="$(yq r /tokaido/site/.tok/config.yml nginx.hashmaxsize)"
-    tokaidoSettings[CLIENT_MAX_BODY_SIZE]="$(yq r /tokaido/site/.tok/config.yml nginx.clientmaxbodysize)"
-    tokaidoSettings[KEEPALIVE_TIMEOUT]="$(yq r /tokaido/site/.tok/config.yml nginx.keepalivetimeout)"
-    tokaidoSettings[FASTCGI_READ_TIMEOUT]="$(yq r /tokaido/site/.tok/config.yml nginx.fastcgireadtimeout)"
-    tokaidoSettings[FASTCGI_BUFFERS]="$(yq r /tokaido/site/.tok/config.yml nginx.fastcgibuffers)"
-    tokaidoSettings[FASTCGI_BUFFER_SIZE]="$(yq r /tokaido/site/.tok/config.yml nginx.fastcgibuffersize)"
-    tokaidoSettings[DRUPAL_ROOT]="$(yq r /tokaido/site/.tok/config.yml drupal.path)"
+if [ -f /app/site/.tok/config.yml ]; then
+    tokaidoSettings[WORKER_CONNECTIONS]="$(yq r /app/site/.tok/config.yml nginx.workerconnections)"
+    tokaidoSettings[TYPES_HASH_MAX_SIZE]="$(yq r /app/site/.tok/config.yml nginx.hashmaxsize)"
+    tokaidoSettings[CLIENT_MAX_BODY_SIZE]="$(yq r /app/site/.tok/config.yml nginx.clientmaxbodysize)"
+    tokaidoSettings[KEEPALIVE_TIMEOUT]="$(yq r /app/site/.tok/config.yml nginx.keepalivetimeout)"
+    tokaidoSettings[FASTCGI_READ_TIMEOUT]="$(yq r /app/site/.tok/config.yml nginx.fastcgireadtimeout)"
+    tokaidoSettings[FASTCGI_BUFFERS]="$(yq r /app/site/.tok/config.yml nginx.fastcgibuffers)"
+    tokaidoSettings[FASTCGI_BUFFER_SIZE]="$(yq r /app/site/.tok/config.yml nginx.fastcgibuffersize)"
+    tokaidoSettings[DRUPAL_ROOT]="$(yq r /app/site/.tok/config.yml drupal.path)"
 fi
 
 printf "${BLUE}NGINX will run with the following configuration values and sources:${NC}\n"
@@ -146,8 +146,8 @@ REDIRECTS_CONFIG_FILE="redirects.conf"
 ADDITIONAL_CONFIG_FILE="additional.conf"
 SECURITY_CONFIG_FILE="security.conf"
 
-DEFAULT_CONFIG_PATH="/tokaido/config/nginx"
-CUSTOM_CONFIG_PATH="/tokaido/site/.tok/nginx"
+DEFAULT_CONFIG_PATH="/app/config/nginx"
+CUSTOM_CONFIG_PATH="/app/site/.tok/nginx"
 
 declare -A configFiles
 configFiles[NGINX_CONFIG]="$DEFAULT_CONFIG_PATH/$NGINX_CONFIG_FILE"

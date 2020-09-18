@@ -1,5 +1,5 @@
 ARG TOKAIDO_VERSION
-FROM tokaido/admin73:${TOKAIDO_VERSION}
+FROM tokaido/admin74:${TOKAIDO_VERSION}
 
 ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.1.5/supercronic-linux-amd64 \
     SUPERCRONIC=supercronic-linux-amd64 \
@@ -11,13 +11,13 @@ RUN apt-get update -y \
     && chmod +x "$SUPERCRONIC" \
     && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
     && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic \
-    && mkdir -p /tokaido/config/logrotate \
-    && chown -R tok:web /tokaido/config/logrotate \
-    && chmod 770 /tokaido/config/logrotate
+    && mkdir -p /app/config/logrotate \
+    && chown -R tok:web /app/config/logrotate \
+    && chmod 770 /app/config/logrotate
 
-COPY config/crontab /tokaido/config/logrotate/crontab
-COPY config/logrotate.conf /tokaido/config/logrotate/logrotate.conf
+COPY config/crontab /app/config/logrotate/crontab
+COPY config/logrotate.conf /app/config/logrotate/logrotate.conf
 
 WORKDIR /tmp
 
-ENTRYPOINT ["supercronic", "/tokaido/config/logrotate/crontab"]
+ENTRYPOINT ["supercronic", "/app/config/logrotate/crontab"]
