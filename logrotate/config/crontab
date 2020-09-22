@@ -1,1 +1,2 @@
-0 0 * * *     /usr/sbin/logrotate -v /app/config/logrotate/logrotate.conf
+0 0 * * *       /usr/sbin/logrotate -v /app/config/logrotate/logrotate.conf
+*/5 * * * *     find /app/logs/ -type f -name \*.gz -exec mv -t /app/logs/archive {} +

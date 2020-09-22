@@ -13,9 +13,9 @@ RUN curl -fsSLO "$SUPERCRONIC_URL" \
     && chmod +x "$SUPERCRONIC" \
     && mv "$SUPERCRONIC" "/usr/local/bin/${SUPERCRONIC}" \
     && ln -s "/usr/local/bin/${SUPERCRONIC}" /usr/local/bin/supercronic \
-    && mkdir -p /app/logs/client-cron \
-    && chown -R tok:web /app/logs/client-cron \
-    && chmod 770 /app/logs/client-cron
+    && mkdir -p /app/logs/cron \
+    && chown -R tok:web /app/logs/cron \
+    && chmod 770 /app/logs/cron
 
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 
@@ -25,4 +25,4 @@ RUN chmod 770 /usr/local/bin/entrypoint.sh && \
 USER tok
 WORKDIR /app/site
 
-CMD ["/usr/local/bin/entrypoint.sh"]
+ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]

@@ -27,4 +27,4 @@ if [[ $(ls -l /app/config/custom-env-vars/* 2>/dev/null) ]]; then
 fi
 
 umask 002
-ENTRYPOINT ["/usr/local/bin/supercronic", "-log=/app/logs/cron.log", "/app/site/.tok/cron/crontab"]
+/usr/local/bin/supercronic -passthrough-logs /app/site/.tok/cron/crontab > /app/logs/cron.log

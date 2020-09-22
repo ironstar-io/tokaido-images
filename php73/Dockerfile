@@ -1,4 +1,7 @@
 ARG TOKAIDO_VERSION
+ARG PHP_URL
+ARG PHP_ASC_URL
+ARG PHP_SHA256
 FROM tokaido/base:${TOKAIDO_VERSION}
 LABEL io.ironstar.platform=tokaido
 ARG DEBIAN_FRONTEND=noninteractive
