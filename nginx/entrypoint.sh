@@ -14,9 +14,14 @@ NC='\033[0m' # No Color
 # TLS Configuration
 ############################
 
-printf "${YELLOW}Creating TLS Certificate...${NC}\n"
-openssl req -subj "/CN=*.nginx.nozomi.ironstar.io/O=Nozomi Hosting Platform./C=AU" -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /app/config/nginx/runtime/tls/default.key -out /app/config/nginx/runtime/tls/default.crt
-
+# Tokaido uses a TLS certified provided from the host and mounted at /app/config/nginx/runtime/tls/
+# If this certificate happens to be missing, generate one for assumed internal/testing use
+if [ -f "/app/config/nginx/runtime/tls/default.key" ]; then
+    printf "${GREEN}Using supplied TLS Certificate${NC}\n"
+else
+    printf "${YELLOW}Creating self-signed TLS Certificate${NC}\n"
+    openssl req -subj "/CN=*.local.tokaido.io/O=Tokaido Hosting Platform./C=AU" -x509 -nodes -days 365 -newkey rsa:2048 -keyout /app/config/nginx/runtime/tls/default.key -out /app/config/nginx/runtime/tls/default.crt
+fi
 
 ################################################################################
 #

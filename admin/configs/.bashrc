@@ -4,7 +4,7 @@
 # for examples
 
 drupal_root=${DRUPAL_ROOT:-docroot}
-export PATH=$PATH:$HOME/.composer/vendor/bin
+export PATH=$PATH:$HOME/.composer/vendor/bin:/usr/local/nodejs/bin
 export DRUSH_LAUNCHER_FALLBACK=/usr/local/drush/global/bin/drush
 if [ -f /app/config/.env ]; then
     source /app/config/.env

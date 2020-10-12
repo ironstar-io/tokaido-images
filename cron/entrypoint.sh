@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eo pipefail
 
-printf "${BLUE}Running envplate to configure PHP${NC}\n"
+printf "Running envplate to configure PHP\n"
 ep /app/config/php/php.ini
 
 if ! [[ -f /app/site/.tok/cron/crontab ]]; then
@@ -17,11 +17,11 @@ fi
 
 # If a custom environment variable path exists, then inject those values
 if [[ $(ls -l /app/config/custom-env-vars/* 2>/dev/null) ]]; then
-    printf "${YELLOW}Importing custom env vars from /app/config/custom-env-vars/*${NC}\n"
+    printf "Importing custom env vars from /app/config/custom-env-vars/*\n"
     for e in /app/config/custom-env-vars/*;
     do
         v=$(cat $e)
-        printf "  ${YELLOW}Setting custom ENV $e$NC\n"
+        printf "  Setting custom ENV $e\n"
         export ${e##*/}="$v"
     done
 fi

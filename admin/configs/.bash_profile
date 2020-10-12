@@ -1,6 +1,6 @@
 # Vars we want to see in both interactive and non-interactive shells
 drupal_root=${DRUPAL_ROOT:-docroot}
-export PATH=$PATH:$HOME/.composer/vendor/bin
+export PATH=$PATH:$HOME/.composer/vendor/bin:/usr/local/nodejs/bin
 export DRUSH_LAUNCHER_FALLBACK=/usr/local/drush/global/bin/drush
 source /app/config/.env
 

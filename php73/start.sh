@@ -48,6 +48,15 @@ if [ ${XDEBUG_REMOTE_ENABLE+x} ]; then
     cp /app/config/php/disabled/xdebug.ini /app/config/php/conf.d/
 fi
 
+if [ ${NEWRELIC_LICENSE_KEY+x} ]; then
+  printf "${YELLOW}Enabling NewRelic Support${NC}\n"
+  cp /app/config/php/disabled/newrelic.ini /app/config/php/conf.d/
+  ep /app/config/php/conf.d/newrelic.ini
+  touch /tmp/newrelic-daemon.pid
+  chmod 600 /tmp/newrelic-daemon.pid
+  chown app:root /tmp/newrelic-daemon.pid
+fi
+
 # Run post-deploy hooks if we're in a production environment
 if [[ ! -z "$TOK_PROVIDER" ]]; then
     printf "${YELLOW}Running discovered post-deploy hooks from /app/site/.tok/hooks/post-deploy/*.sh${NC}\n"

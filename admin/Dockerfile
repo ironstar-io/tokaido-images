@@ -41,12 +41,6 @@ RUN apt-get update  \
         less \
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
-    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash \
-    && bash -c 'source $HOME/.nvm/nvm.sh && nvm install v8' \
-    && bash -c 'source $HOME/.nvm/nvm.sh && nvm install v10' \
-    && bash -c 'source $HOME/.nvm/nvm.sh && nvm install v12' \
-    && bash -c 'source $HOME/.nvm/nvm.sh && nvm install v14' \
-    && bash -c 'source $HOME/.nvm/nvm.sh && nvm alias default v12' \
     && apt-get update \
     && apt-get install -y --no-install-recommends -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
         yarn \
@@ -65,8 +59,10 @@ RUN apt-get update  \
     && chmod 750 /home/tok/.composer/vendor/drush/drush/drush \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* \
-    && rm /etc/ssh/ssh_host_dsa_key* /etc/ssh/ssh_host_ecdsa_key* /etc/ssh/ssh_host_ed25519_key*
-
+    && rm /etc/ssh/ssh_host_dsa_key* /etc/ssh/ssh_host_ecdsa_key* /etc/ssh/ssh_host_ed25519_key* \
+    && mkdir -p /usr/local/nodejs \
+    && curl -sLo /tmp/nodejs.tar.xz https://nodejs.org/dist/v12.19.0/node-v12.19.0-linux-x64.tar.xz \
+    && tar -xJvf /tmp/nodejs.tar.xz -C /usr/local/nodejs --strip-components=1
 
 RUN rm -rf /tmp/*
 

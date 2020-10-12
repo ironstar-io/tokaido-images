@@ -29,6 +29,7 @@ RUN apt-get update  \
     && useradd -s /sbin/nologin -d /var/cache/nginx -g web -u 1002 nginx  \
 	&& chown tok:web /app -R \
 	&& chown nginx:web /app/logs/nginx \
+    && chown nginx:web /app/logs/ \
 	&& chown nginx:web /var/cache/nginx \
 	&& chmod 740 /var/cache/nginx \
 	&& touch /var/run/nginx.pid \
@@ -37,7 +38,8 @@ RUN apt-get update  \
 	&& echo "af1340121fdd4c7e8ec61b5fdd2237b40205563c6cc174e6bdab89de18fc5b97 /usr/local/bin/yq" | sha256sum -c \
 	&& chmod 777 /usr/local/bin/yq \
 	&& apt-get clean \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && ln -s /app /tokaido
 
 COPY config/nginx.conf /app/config/nginx/nginx.conf
 COPY config/host.conf /app/config/nginx/host.conf
