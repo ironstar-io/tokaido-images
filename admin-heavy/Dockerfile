@@ -32,5 +32,6 @@ RUN apt-get update \
     && chmod 770 /usr/local/bin/iron \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+COPY configs/php-cli.ini /app/config/php/php.ini
 
 ENV SHELL /bin/bash

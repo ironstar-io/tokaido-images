@@ -6,6 +6,8 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 COPY configs/.bash_profile /etc/skel/.bash_profile
 COPY configs/.bashrc /etc/skel/.bashrc
+COPY configs/.bash_profile /root/.bash_profile
+COPY configs/.bashrc /root/.bashrc
 
 # this container deliberately runs as root so SSH can run
 # hadolint ignore=DL3002
@@ -62,7 +64,8 @@ RUN apt-get update  \
     && rm /etc/ssh/ssh_host_dsa_key* /etc/ssh/ssh_host_ecdsa_key* /etc/ssh/ssh_host_ed25519_key* \
     && mkdir -p /usr/local/nodejs \
     && curl -sLo /tmp/nodejs.tar.xz https://nodejs.org/dist/v12.19.0/node-v12.19.0-linux-x64.tar.xz \
-    && tar -xJvf /tmp/nodejs.tar.xz -C /usr/local/nodejs --strip-components=1
+    && tar -xJvf /tmp/nodejs.tar.xz -C /usr/local/nodejs --strip-components=1 \
+    && ln -s /usr/local/nodejs/bin/node /usr/local/bin/node
 
 RUN rm -rf /tmp/*
 

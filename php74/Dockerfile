@@ -206,6 +206,7 @@ RUN echo 'deb http://apt.newrelic.com/debian/ newrelic non-free' | tee /etc/apt/
     && printf "\n" | pecl install igbinary \
     && printf "\n" | pecl install apcu \
     && printf "\n" | pecl install uploadprogress \
+    && printf "\n" | pecl install zip \
 	&& rm -rf /tmp/pear ~/.pearrc
 
 # Cleanup
