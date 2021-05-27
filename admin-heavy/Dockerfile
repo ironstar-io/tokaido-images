@@ -2,7 +2,7 @@ ARG TOKAIDO_VERSION
 ARG PHP_VERSION_SHORT
 FROM tokaido/admin${PHP_VERSION_SHORT}:${TOKAIDO_VERSION}
 LABEL io.ironstar.platform=tokaido
-ARG IRONSTAR_CLI_VERSION=v0.7.0
+ARG IRONSTAR_CLI_VERSION=v0.19.2
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 COPY configs/sudoers /etc/sudoers
@@ -27,7 +27,7 @@ RUN apt-get update \
     && ln -s /usr/share/bash-completion/completions/git /etc/bash_completion.d/git-completion.bash \
     && chmod 750 /home/tok/.composer/vendor/drush/drush/drush \
     && chmod 700 /home/tok/.fzf/bin/fzf \
-    && curl -sLo /usr/local/bin/iron https://github.com/ironstar-io/ironstar-cli/releases/download/${IRONSTAR_CLI_VERSION}/iron-linux \
+    && curl -sLo /usr/local/bin/iron https://github.com/ironstar-io/ironstar-cli/releases/download/${IRONSTAR_CLI_VERSION}/iron-linux-amd64 \
     && chown tok:web /usr/local/bin/iron \
     && chmod 770 /usr/local/bin/iron \
     && apt-get clean \

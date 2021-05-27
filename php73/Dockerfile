@@ -216,7 +216,6 @@ RUN apt-get clean \
 
 # Install custom modules and third-party extensions
 RUN curl -s https://getcomposer.org/installer > composer-setup.php && /usr/local/bin/php composer-setup.php && mv composer.phar /usr/local/bin/composer && rm composer-setup.php  \
-    && su - tok -c "/usr/local/bin/composer global require \"hirak/prestissimo\""  \
     && su - tok -c "/usr/local/bin/composer global require \"drush/drush\""  \
     && curl -sLo /usr/local/bin/drush https://github.com/drush-ops/drush-launcher/releases/download/0.6.0/drush.phar \
     && curl -sLO https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs952/ghostscript-9.52-linux-x86_64.tgz \

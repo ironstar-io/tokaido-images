@@ -1,5 +1,8 @@
 ARG TOKAIDO_VERSION
 ARG PHP_VERSION_SHORT
+
+FROM node:12-buster AS node
+
 FROM tokaido/php${PHP_VERSION_SHORT}:${TOKAIDO_VERSION}
 LABEL io.ironstar.platform=tokaido
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
@@ -42,12 +45,6 @@ RUN apt-get update  \
     # && curl -sL https://deb.nodesource.com/setup_10.x | bash - \
     && curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list \
-    && curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash \
-    && bash -c 'source $HOME/.nvm/nvm.sh && nvm install v8' \
-    && bash -c 'source $HOME/.nvm/nvm.sh && nvm install v10' \
-    && bash -c 'source $HOME/.nvm/nvm.sh && nvm install v12' \
-    && bash -c 'source $HOME/.nvm/nvm.sh && nvm install v14' \
-    && bash -c 'source $HOME/.nvm/nvm.sh && nvm alias default v10' \
     && apt-get update \
     && apt-get install -y --no-install-recommends -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" \
         yarn \
@@ -66,6 +63,10 @@ RUN apt-get update  \
     && chmod 750 /home/tok/.composer/vendor/drush/drush/drush \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+COPY --from=node /opt /opt
+COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
+COPY --from=node /usr/local/bin /usr/local/bin
 
 RUN rm -rf /tmp/*
 
